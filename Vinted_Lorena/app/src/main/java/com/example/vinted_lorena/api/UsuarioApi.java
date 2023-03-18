@@ -5,6 +5,7 @@ import com.example.vinted_lorena.Entity.service.Usuario;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 public interface UsuarioApi {
@@ -13,6 +14,7 @@ public interface UsuarioApi {
 
     //Llamada al servicio
     //Ruta del método de login
+    @FormUrlEncoded
     @POST(baseUrl + "/login")
     Call<GenericResponse<Usuario>> login(@Field("email") String email, @Field("pass") String password);
 }

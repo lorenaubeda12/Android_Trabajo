@@ -41,7 +41,7 @@ public class Usuario_Repository {
             @Override
             public void onFailure(Call<GenericResponse<Usuario>> call, Throwable t) {
                 mdl.setValue(new GenericResponse());
-                System.out.printf("Se ha producido un error al iniciar la sesión: " + t.getMessage());
+                System.out.print("Se ha producido un error al iniciar la sesión: " + t.getMessage());
                 t.printStackTrace();
             }
         });
