@@ -1,0 +1,138 @@
+Base de datos android
+
+CREATE TABLE  usuario(
+    id INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(30) NOT NULL,
+    apellidos VARCHAR(60) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    contraseña varchar(100) NOT NULL,
+    ciudad varchar(100) NOT NULL,
+    provincia varchar(100) NOT NULL,
+    pais varchar(100) NOT NULL,
+    telefono varchar(60) NOT NULL,
+    tipo_usuario varchar(100) NOT NULL,
+    PRIMARY KEY(id)
+);
+
+create table categoria(
+    id_categoria INT NOT NULL AUTO_INCREMENT,
+    nombre_categoria varchar(60) NOT NULL,
+    PRIMARY KEY(id_categoria)
+);
+
+
+CREATE TABLE  producto(
+                          id INT NOT NULL AUTO_INCREMENT,
+                          nombre_producto VARCHAR(30) NOT NULL,
+                          descripcion VARCHAR(60) NOT NULL,
+                          precio decimal NOT NULL,
+                          categoria  INT  NOT NULL,
+                          imagen varchar(100) NOT NULL,
+                          id_usuario  INT NOT NULL,
+                          PRIMARY KEY(id),
+                          FOREIGN KEY (id_usuario) REFERENCES usuario(id),
+                          FOREIGN KEY (categoria) REFERENCES categoria(id_categoria)
+);
+
+
+Create table tipo_envio(
+                             id_tipo_envio INT NOT NULL AUTO_INCREMENT,
+                            nombre_tipo_envio varchar(60) NOT NULL,
+                            precio decimal NOT NULL,
+                            PRIMARY KEY(id_tipo_envio)
+    );
+CREATE TABLE compra(
+                       id_compra INT NOT NULL AUTO_INCREMENT,
+                       id_producto INT NOT NULL,
+                       id_usuario INT NOT NULL,
+                       fecha_compra DATE NOT NULL,
+                       precio_compra decimal NOT NULL,
+                       tipo_envio INT NOT NULL,
+                       PRIMARY KEY(id_compra),
+                        FOREIGN KEY (id_producto) REFERENCES producto(id),
+                        FOREIGN KEY (id_usuario) REFERENCES usuario(id),
+                        FOREIGN KEY (tipo_envio) REFERENCES tipo_envio(id_tipo_envio)
+
+);
+
+
+
+
+CREATE  TABLE valoracion(
+                            id_valoracion INT NOT NULL AUTO_INCREMENT,
+                            id_producto INT NOT NULL,
+                            id_usuario INT NOT NULL,
+                            id_compra int not null ,
+                            valoracion INT NOT NULL,
+                            
+                            PRIMARY KEY(id_valoracion,id_compra),
+                            FOREIGN KEY (id_producto) REFERENCES producto(id),
+                            FOREIGN KEY (id_usuario) REFERENCES usuario(id),
+                            FOREIGN KEY (id_compra) REFERENCES compra(id_compra)
+                            
+);
+
+
+
+
+
+INSERT INTO usuario (nombre, apellidos, email, contraseña, ciudad, provincia, pais, telefono, tipo_usuario)
+VALUES ('Juan', 'Pérez Rodríguez', 'juanperez@gmail.com', 'contraseña123', 'Madrid', 'Madrid', 'España', '+34666666666', 'cliente');
+
+INSERT INTO usuario (nombre, apellidos, email, contraseña, ciudad, provincia, pais, telefono, tipo_usuario)
+VALUES ('Maria', 'Gonzales', 'mgonzales@gmail.com', '12345', 'Madrid', 'Madrid', 'España', '+34123456789', 'vendedor');
+
+INSERT INTO usuario (nombre, apellidos, email, contraseña, ciudad, provincia, pais, telefono, tipo_usuario)
+VALUES ('Juan', 'Martinez', 'juanMartinez1293@gmail.com', 'contraseña', 'Madrid', 'Madrid', 'España', '+3466662226', 'vendedor');
+
+INSERT INTO usuario (nombre, apellidos, email, contraseña, ciudad, provincia, pais, telefono, tipo_usuario)
+VALUES ('Eugenio', 'Derbez', 'ederbezz@gmail.com', '12346', 'Madrid', 'Madrid', 'España', '+34666677666', 'cliente');
+
+INSERT INTO usuario (nombre, apellidos, email, contraseña, ciudad, provincia, pais, telefono, tipo_usuario)
+VALUES ('Miguel', 'Pérez Rodríguez', 'miguelMiguel@gmail.com', 'abcde', 'Zaragoza', 'Zaragoza', 'España', '+34633666666', 'cliente');
+
+INSERT INTO usuario (nombre, apellidos, email, contraseña, ciudad, provincia, pais, telefono, tipo_usuario)
+VALUES ('Pedro', 'Pardos', 'ppardos@gmail.com', 'ppardos', 'Madrid', 'Madrid', 'España', '+34668526666', 'cliente');
+
+INSERT INTO usuario (nombre, apellidos, email, contraseña, ciudad, provincia, pais, telefono, tipo_usuario)
+VALUES ('Roberto', 'Gaona', 'r.gaona@gmail.com', '141118', 'Madrid', 'Madrid', 'España', '+34123666666', 'cliente');
+
+INSERT INTO usuario (nombre, apellidos, email, contraseña, ciudad, provincia, pais, telefono, tipo_usuario)
+VALUES ('Ana', 'Blasco', 'ablasco@gmail.com', '123', 'Madrid', 'Madrid', 'España', '+34661216666', 'cliente');
+
+INSERT INTO usuario (nombre, apellidos, email, contraseña, ciudad, provincia, pais, telefono, tipo_usuario)
+VALUES ('Lorena', 'Ubeda', 'lorenaubeda@gmail.com', 'contraseña123', 'Zaragoza', 'Zaragoza', 'España', '+34668866666', 'cliente');
+
+INSERT INTO usuario (nombre, apellidos, email, contraseña, ciudad, provincia, pais, telefono, tipo_usuario)
+VALUES ('Martha', 'Ubeda', 'mubeda@gmail.com', 'contraseña123', 'Zaragoza', 'Zaragoza', 'España', '+34634283593', 'cliente');
+
+INSERT INTO usuario (nombre, apellidos, email, contraseña, ciudad, provincia, pais, telefono, tipo_usuario)
+VALUES ('Nina', 'Gaona', 'ninota@gmail.com', 'miau123', 'Zaragoza', 'Zaragoza', 'España', '+34666666666', 'cliente');
+
+INSERT INTO usuario (nombre, apellidos, email, contraseña, ciudad, provincia, pais, telefono, tipo_usuario)
+VALUES ('Pandora', 'Lighter', 'pligther@gmail.com', 'contraseña', 'Madrid', 'Madrid', 'España', '+34170620224', 'cliente');
+
+INSERT INTO usuario (nombre, apellidos, email, contraseña, ciudad, provincia, pais, telefono, tipo_usuario)
+VALUES ('Tinker', 'Chonker', 'tinkercito@gmail.com', 'contraseña123', 'Madrid', 'Madrid', 'España', '+34666666666', 'vendedor');
+
+INSERT INTO usuario (nombre, apellidos, email, contraseña, ciudad, provincia, pais, telefono, tipo_usuario)
+VALUES ('Emanuel', 'Pérez Rodríguez', 'emmaN@gmail.com', 'contraseña123', 'Madrid', 'Madrid', 'España', '+34666666666', 'vendedor');
+
+INSERT INTO usuario (nombre, apellidos, email, contraseña, ciudad, provincia, pais, telefono, tipo_usuario)
+VALUES ('Ystola', 'WoL', 'ystolaWarrior@gmail.com', 'contraseña123', 'Madrid', 'Madrid', 'España', '+3466666236', 'vendedor');
+
+
+INSERT INTO tipo_envio (nombre_tipo_envio, precio) VALUES ('Envío estándar', 4.99);
+INSERT INTO tipo_envio (nombre_tipo_envio, precio) VALUES ('Envío gratis', 0.00);
+INSERT INTO tipo_envio (nombre_tipo_envio, precio) VALUES ('Envío urgente', 9.99);
+INSERT INTO tipo_envio (nombre_tipo_envio, precio) VALUES ('Certificado', 6.45);
+
+
+
+INSERT INTO categoria (nombre_categoria) VALUES ('Zapatilla');
+INSERT INTO categoria (nombre_categoria) VALUES ('Blusa');
+INSERT INTO categoria (nombre_categoria) VALUES ('Bota');
+INSERT INTO categoria (nombre_categoria) VALUES ('Gorro');
+INSERT INTO categoria (nombre_categoria) VALUES ('Camisa');
+INSERT INTO categoria (nombre_categoria) VALUES ('Pantalon');
+INSERT INTO categoria (nombre_categoria) VALUES ('Vestido');
