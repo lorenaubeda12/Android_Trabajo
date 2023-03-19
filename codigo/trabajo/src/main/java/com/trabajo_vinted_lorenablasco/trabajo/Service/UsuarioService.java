@@ -19,23 +19,40 @@ public class UsuarioService {
     public UsuarioService(Usuario_Repository repository) {
         this.repository = repository;
     }
+
     //Método para iniciar sesión
-    public GenericResponse<Usuario> login(String email, String contrasenia){
+    public GenericResponse<Usuario> login(String email, String contrasenia) {
         Optional<Usuario> optU = this.repository.login(email, contrasenia);
-        if(optU.isPresent()){
+        if (optU.isPresent()) {
             return new GenericResponse<Usuario>(TIPO_AUTH, RPTA_OK, "Haz iniciado sesión correctamente", optU.get());
-        }else{
+        } else {
             return new GenericResponse<Usuario>(TIPO_AUTH, RPTA_WARNING, "Lo sentimos, ese usuario no existe", new Usuario());
         }
     }
+
     //Método para guardar credenciales del usuario
-    public GenericResponse guardarUsuario(Usuario u){
+    public GenericResponse guardarUsuario(Usuario u) {
         Optional<Usuario> optU = this.repository.findById(u.getId());
         int idf = optU.isPresent() ? optU.get().getId() : 0;
-        if(idf == 0){
+        if (idf == 0) {
             return new GenericResponse(TIPO_DATA, RPTA_OK, "Usuario Registrado Correctamente", this.repository.save(u));
-        }else{
+        } else {
             return new GenericResponse(TIPO_DATA, RPTA_OK, "Datos del usuario actualizados", this.repository.save(u));
         }
+    }
+
+
+    //Metodo para crear usuario y actualizar datos
+    public GenericResponse save(Usuario user) {
+        Optional<Usuario> opt = this.repository.findById(user.getId());
+        int id = opt.isPresent() ? opt.get().getId() : 0;
+
+            if (repository.existByEmail(user.getEmail().trim())) {
+                return new GenericResponse(TIPO_RESULT, RPTA_WARNING, "Lo sentimos, este usuario ya existe con este email", null);
+            } else {
+                //Guardar
+                user.setId(id);
+                return new GenericResponse(TIPO_DATA, RPTA_OK, "Cliente registrado correctamente", this.repository.save(user));
+            }
     }
 }

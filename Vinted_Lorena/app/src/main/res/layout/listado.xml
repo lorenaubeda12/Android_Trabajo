@@ -12,7 +12,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        card_view:cardBackgroundColor="@color/purple_500">
+        card_view:cardBackgroundColor="#A4007782">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,8 +55,9 @@
                 <Button
                     android:layout_width="150dp"
                     android:layout_height="50dp"
-                    android:background="@drawable/efecto_boton_volver"
+                    android:backgroundTint="@color/button_text_color"
                     android:text="Ver articulo"
+                    android:textColor="#00BCD4"
                     android:textSize="15dp"></Button>
 
             </LinearLayout>

@@ -4,6 +4,7 @@ import com.trabajo_vinted_lorenablasco.trabajo.Entity.Usuario;
 import com.trabajo_vinted_lorenablasco.trabajo.Service.UsuarioService;
 import com.trabajo_vinted_lorenablasco.trabajo.utils.GenericResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpRequest;
@@ -23,4 +24,14 @@ public class UsuarioController {
         String contrasenia = request.getParameter("pass");
         return this.service.login(email, contrasenia);
     }
+
+    @PostMapping("")
+    public GenericResponse guardar(@RequestBody Usuario u){
+        return this.service.guardarUsuario(u);
+    }
+    @PutMapping("/{id}")
+    public GenericResponse actualizar(@PathVariable int id, @RequestBody Usuario u){
+        return  this.service.guardarUsuario(u);
+    }
+
 }
