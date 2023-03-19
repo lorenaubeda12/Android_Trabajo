@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.vinted_lorena.Activity.MainActivity;
+import com.example.vinted_lorena.Activity.RegistroActivity;
 import com.example.vinted_lorena.Entity.service.Usuario;
 import com.example.vinted_lorena.utilis.DateSerializer;
 import com.example.vinted_lorena.utilis.TimeSerializer;
@@ -31,7 +32,7 @@ public class loginActivity extends AppCompatActivity {
     private Button btnInicioSesion;
     private Button btnAtras;
     private UsuarioViewModel usuarioViewModel;
-    private TextView email, contraseña;
+    private TextView login_registro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class loginActivity extends AppCompatActivity {
     private void init() {
         edtMail = findViewById(R.id.email_login);
         edtPassword = findViewById(R.id.contraseña_login);
-
+        login_registro=findViewById(R.id.registro_login);
         btnInicioSesion = findViewById(R.id.entrar_login);
         btnInicioSesion.setOnClickListener(v -> {
             try {
@@ -87,6 +88,10 @@ public class loginActivity extends AppCompatActivity {
             }
 
         });
+        login_registro.setOnClickListener(v -> {
+            startActivity(new Intent(this, RegistroActivity.class));
+        });
+
 
     }
 

@@ -60,7 +60,7 @@ public class RegistroActivity extends AppCompatActivity {
         edtDireccion = findViewById(R.id.direc_regitro_txt);
         edtCiudad = findViewById(R.id.ciudad_regitro_txt);
         edtPais = findViewById(R.id.pais_regitro_txt);
-
+        btnAtras= findViewById(R.id.regitro_atras);
 
         btnregistro = findViewById(R.id.registrarse);
         btnregistro.setOnClickListener(v -> {
@@ -71,6 +71,10 @@ public class RegistroActivity extends AppCompatActivity {
             }
 
         });
+        btnAtras.setOnClickListener(v -> {
+                onBackPressed();
+            });
+
 
     }
 
@@ -158,7 +162,7 @@ public class RegistroActivity extends AppCompatActivity {
                             if (uResponse.getRpta() == 1) {
                                 Toast.makeText(this, "Sus Datos y credenciales fueron creados correctamente: "+cResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
-                                //this.finish();
+                                this.finish();
                             } else {
                                 Toast.makeText(this, cResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
