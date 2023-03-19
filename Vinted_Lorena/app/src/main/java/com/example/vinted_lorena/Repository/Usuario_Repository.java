@@ -10,6 +10,7 @@ import com.example.vinted_lorena.api.UsuarioApi;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Usuario_Repository {
     private static Usuario_Repository repository;
@@ -47,4 +48,26 @@ public class Usuario_Repository {
         });
         return mdl;
     }
+
+    public LiveData<GenericResponse<Usuario>> save(Usuario usuario) {
+        final MutableLiveData<GenericResponse<Usuario>> mutableLiveData = new MutableLiveData<>();
+        this.usuarioApi.save(usuario).enqueue(new Callback<GenericResponse<Usuario>>() {
+            @Override
+            public void onResponse(Call<GenericResponse<Usuario>> call, Response<GenericResponse<Usuario>> response) {
+                mutableLiveData.setValue(response.body());
+
+            }
+
+            @Override
+            public void onFailure(Call<GenericResponse<Usuario>> call, Throwable t) {
+                mutableLiveData.setValue(new GenericResponse<>());
+                System.out.println("Se ha producido un error :" + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+
+        return mutableLiveData;
+    }
+
+
 }
