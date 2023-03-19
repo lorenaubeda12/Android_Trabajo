@@ -1,12 +1,8 @@
 package com.example.vinted_lorena.Activity;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,21 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.vinted_lorena.Entity.service.Usuario;
 import com.example.vinted_lorena.R;
-import com.example.vinted_lorena.utilis.DateSerializer;
-import com.example.vinted_lorena.utilis.TimeSerializer;
 import com.example.vinted_lorena.view_model.UsuarioViewModel;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 public class RegistroActivity extends AppCompatActivity {
 
@@ -58,7 +40,7 @@ public class RegistroActivity extends AppCompatActivity {
         edtTelefono = findViewById(R.id.tele_regitro_txt);
         edtPassword = findViewById(R.id.contraseña_regitro_txt);
         edtDireccion = findViewById(R.id.direc_regitro_txt);
-        edtCiudad = findViewById(R.id.ciudad_regitro_txt);
+        edtCiudad = findViewById(R.id.direc_regitro_txt);
         edtPais = findViewById(R.id.pais_regitro_txt);
         btnAtras= findViewById(R.id.regitro_atras);
 
