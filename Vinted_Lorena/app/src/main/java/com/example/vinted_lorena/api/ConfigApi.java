@@ -37,7 +37,7 @@ public class ConfigApi {
                 .client(getClient()).build();
     }
 
-    private static OkHttpClient getClient() {
+    public static OkHttpClient getClient() {
         HttpLoggingInterceptor loggin = new HttpLoggingInterceptor();
         loggin.setLevel(HttpLoggingInterceptor.Level.BODY);
         StethoInterceptor stetho = new StethoInterceptor();

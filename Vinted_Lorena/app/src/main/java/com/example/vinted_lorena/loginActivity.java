@@ -74,7 +74,7 @@ public class loginActivity extends AppCompatActivity {
                             //Limpiar campos
                             edtMail.setText("");
                             edtPassword.setText("");
-                            startActivity(new Intent(this, MainActivity.class));
+                            startActivity(new Intent(this, home.class));
                         } else {
                             Toast.makeText(this, "Ocurrio un error" + response.getMessage(), Toast.LENGTH_SHORT).show();
                             System.out.println("Usuario no logueado");
