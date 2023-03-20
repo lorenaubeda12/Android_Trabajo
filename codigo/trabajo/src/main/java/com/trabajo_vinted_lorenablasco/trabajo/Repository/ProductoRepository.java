@@ -15,4 +15,8 @@ public interface ProductoRepository extends CrudRepository<Producto, Integer> {
     @Query("SELECT P  FROM Producto P WHERE P.id_usuario=:id_usuario")
     Iterable<Producto> listarProductosMios(int id_usuario);
 
+
+    @Query("SELECT P  FROM Producto P WHERE P.categoria=:categoria")
+    Iterable<Producto> listarProductosPorCategoria(int categoria);
+
 }
