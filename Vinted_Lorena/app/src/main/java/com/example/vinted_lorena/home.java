@@ -81,19 +81,16 @@ public class home extends AppCompatActivity {
                 .registerTypeAdapter(Time.class, new TimeSerializer())
                 .create();
         String usuarioJson = sp.getString("usuarioJson",null);
-        if(usuarioJson != null){
+        if(usuarioJson != null) {
             final Usuario u = g.fromJson(usuarioJson, Usuario.class);
             final View vistaHeader = binding.navView.getHeaderView(0);
             final TextView tvNombre = vistaHeader.findViewById(R.id.nombreHome),
                     tvCorreo = vistaHeader.findViewById(R.id.correoHome);
             tvNombre.setText(u.getnombreCompleto());
             tvCorreo.setText(u.getEmail());
-
         }
-       /* BadgeDrawable badgeDrawable = BadgeDrawable.create(this);
-        badgeDrawable.setNumber(Carrito.getDetallePedidos().size());
-        BadgeUtils.attachBadgeDrawable(badgeDrawable, findViewById(R.id.toolbar), R.id.bolsaCompras);*/
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {

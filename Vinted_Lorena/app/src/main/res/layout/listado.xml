@@ -36,36 +36,37 @@
                 android:textStyle="bold" />
 
 
-            <TextView
-                android:id="@+id/precio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/nombreProducto"
-                android:layout_marginTop="5dp"
-                android:text=""
-                android:textColor="#2e2e2e"
-                android:textSize="14dp" />
 
             <TextView
                 android:id="@+id/descrip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/precio"
+                android:layout_below="@id/nombreProducto"
                 android:layout_marginTop="5dp"
                 android:text="Descripcion"
                 android:textColor="#2e2e2e"
                 android:textSize="14dp"
            />
+            <TextView
+                android:id="@+id/precio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/descrip"
+                android:layout_marginTop="5dp"
+                android:text="precio"
+                android:textColor="#2e2e2e"
+                android:textSize="14dp" />
 
             <Button
                 android:id="@+id/btnVer"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:backgroundTint="#FF8500"
 
+                android:layout_alignParentBottom="true"
+
+                android:layout_marginRight="1dp"
+                android:backgroundTint="#FF8500"
                 android:text="Ver"
                 android:textColor="#fff"
                 android:textSize="11dp"
@@ -73,5 +74,7 @@
 
 
         </RelativeLayout>
+
     </com.google.android.material.card.MaterialCardView>
+
 </LinearLayout>
