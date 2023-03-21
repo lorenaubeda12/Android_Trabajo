@@ -52,6 +52,7 @@ public class HomeFragment extends Fragment implements  SearchView.OnQueryTextLis
         init(view);
         initAdapter();
         loadData();
+        loadData();
     }
 
 
@@ -76,6 +77,7 @@ public class HomeFragment extends Fragment implements  SearchView.OnQueryTextLis
             adapterProductos.updateItems(response.getBody());
             buscador.setOnQueryTextListener(this);
         });
+
 
 
 
