@@ -21,6 +21,7 @@ public class ConfigApi {
     private static String token = "";
 
 
+    private static ProductoApi productoApi;
     private static UsuarioApi usuarioApi;
 
     static {
@@ -63,8 +64,12 @@ public class ConfigApi {
         return usuarioApi;
     }
 
-
-
+    public static ProductoApi getProductoApi() {
+        if (productoApi == null) {
+            productoApi = retrofit.create(ProductoApi.class);
+        }
+        return productoApi;
+    }
 
 
 }
