@@ -8,12 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.vinted_lorena.R;
 import com.example.vinted_lorena.loginActivity;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fresco.initialize(this);
         setContentView(R.layout.activity_main);
         int tiempoTranscurrir = 3000; //1 segundo, 1000 millisegundos.
 
