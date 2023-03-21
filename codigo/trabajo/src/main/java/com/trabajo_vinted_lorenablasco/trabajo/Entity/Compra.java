@@ -19,7 +19,7 @@ public class Compra {
     @Column
     private  double precio_compra;
     @Column
-    private String tipoEnvio;
+    private int tipo_Envio;
 
 
     public int getId_compra() {
@@ -62,11 +62,11 @@ public class Compra {
         this.precio_compra = precio_compra;
     }
 
-    public String getTipoEnvio() {
-        return tipoEnvio;
+    public int getTipoEnvio() {
+        return tipo_Envio;
     }
 
-    public void setTipoEnvio(String tipoEnvio) {
-        this.tipoEnvio = tipoEnvio;
+    public void setTipoEnvio(int tipoEnvio) {
+        this.tipo_Envio = tipoEnvio;
     }
 }

@@ -1,5 +1,7 @@
 package com.trabajo_vinted_lorenablasco.trabajo.Service;
 
+import com.trabajo_vinted_lorenablasco.trabajo.Entity.Compra;
+import com.trabajo_vinted_lorenablasco.trabajo.Entity.Valoracion;
 import com.trabajo_vinted_lorenablasco.trabajo.Repository.Categoria_Repository;
 import com.trabajo_vinted_lorenablasco.trabajo.Repository.Compra_Repository;
 import com.trabajo_vinted_lorenablasco.trabajo.utils.GenericResponse;
@@ -24,7 +26,9 @@ public class CompraService {
         return  new GenericResponse(TIPO_DATA,RPTA_OK,OPERACION_CORRECTA,this.compraRepository.listarMisCompras(id));
 
     }
-
+    public GenericResponse guardarCompra(Compra c) {
+        return new GenericResponse(TIPO_DATA, RPTA_OK, "Compra realizada", this.compraRepository.save(c));
+    }
 
 
 }
