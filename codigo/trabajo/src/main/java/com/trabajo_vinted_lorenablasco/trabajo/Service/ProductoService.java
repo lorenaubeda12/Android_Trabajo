@@ -6,6 +6,8 @@ import com.trabajo_vinted_lorenablasco.trabajo.Repository.ProductoRepository;
 import com.trabajo_vinted_lorenablasco.trabajo.utils.GenericResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -21,13 +23,19 @@ public class ProductoService {
     }
 
 
-    public GenericResponse listarProductos(){
-        return  new GenericResponse(TIPO_DATA,RPTA_OK,OPERACION_CORRECTA,this.productoRepository.listarProductos());
+    public GenericResponse listarProductos() {
+        return new GenericResponse(TIPO_DATA, RPTA_OK, OPERACION_CORRECTA, this.productoRepository.listarProductos());
 
     }
 
-    public GenericResponse listarProductosmios(int id_usuario){
-        return  new GenericResponse(TIPO_DATA,RPTA_OK,OPERACION_CORRECTA,this.productoRepository.listarProductosMios(id_usuario));
+    public GenericResponse listarProductosmios(int id_usuario) {
+        return new GenericResponse(TIPO_DATA, RPTA_OK, OPERACION_CORRECTA, this.productoRepository.listarProductosMios(id_usuario));
 
+    }
+
+    public GenericResponse guardarProducto(Producto p) {
+        return new GenericResponse(TIPO_DATA, RPTA_OK, "Producto añadido", this.productoRepository.save(p));
     }
 }
+
+
