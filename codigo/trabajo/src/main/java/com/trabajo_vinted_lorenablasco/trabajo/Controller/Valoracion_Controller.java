@@ -1,11 +1,11 @@
 package com.trabajo_vinted_lorenablasco.trabajo.Controller;
 
+import com.trabajo_vinted_lorenablasco.trabajo.Entity.Producto;
+import com.trabajo_vinted_lorenablasco.trabajo.Entity.Valoracion;
 import com.trabajo_vinted_lorenablasco.trabajo.Service.CompraService;
 import com.trabajo_vinted_lorenablasco.trabajo.Service.ValoracionService;
 import com.trabajo_vinted_lorenablasco.trabajo.utils.GenericResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/valoracion")
@@ -22,5 +22,10 @@ public class Valoracion_Controller {
         return this.service.verValoracionProducto(id);
     }
 
+
+    @PostMapping("")
+    public GenericResponse guardar(@RequestBody Valoracion v){
+        return this.service.guardarValoracionProducto(v);
+    }
 }
 
