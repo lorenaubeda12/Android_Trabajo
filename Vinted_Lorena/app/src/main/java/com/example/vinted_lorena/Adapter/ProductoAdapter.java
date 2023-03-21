@@ -82,7 +82,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
           /*  Picasso.get().load(producto.getImagen()).resize(50,50).centerCrop().into(imgProducto);*/
             nombreProducto.setText(producto.getNombre_producto());
             descipcionProducto.setText(producto.getDescripcion());
-            precioProducto.setText(String.valueOf(producto.getPrecio()));
+            precioProducto.setText(String.valueOf(producto.getPrecio())+"€");
 
 
 
