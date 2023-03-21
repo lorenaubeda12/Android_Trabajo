@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,13 +31,14 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements  SearchView.OnQueryTextListener{
 
     private FragmentHomeBinding binding;
     private ProductoViewModel productoViewModel;
     private RecyclerView rcvProductos;
     private ProductoAdapter adapterProductos;
     private List<Producto> listaProductos = new ArrayList<>();
+    private SearchView buscador;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class HomeFragment extends Fragment {
         rcvProductos = v.findViewById(R.id.rcvProductos);
         rcvProductos.setLayoutManager(new GridLayoutManager(getContext(), 1));
         productoViewModel = vmp.get(ProductoViewModel.class);
+        buscador=v.findViewById(R.id.buscar);
 
 
     }
@@ -71,7 +74,10 @@ public class HomeFragment extends Fragment {
     private void loadData() {
         productoViewModel.listarProductos().observe(getViewLifecycleOwner(), response -> {
             adapterProductos.updateItems(response.getBody());
+            buscador.setOnQueryTextListener(this);
         });
+
+
 
     }
 
@@ -91,5 +97,16 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        adapterProductos.filtrado(newText);
+        return false;
     }
 }
