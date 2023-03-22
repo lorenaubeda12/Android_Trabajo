@@ -10,7 +10,7 @@ public class Categoria {
     @Column
     private String nombre_categoria;
 @Column
-private String imgCategoria;
+private String img_categoria;
     public int getId_categoria() {
         return id_categoria;
     }
@@ -28,10 +28,10 @@ private String imgCategoria;
     }
 
     public String getIimgCategoria() {
-        return imgCategoria;
+        return img_categoria;
     }
 
     public void setimgCategoria(String img_categoria) {
-        this.imgCategoria = img_categoria;
+        this.img_categoria = img_categoria;
     }
 }

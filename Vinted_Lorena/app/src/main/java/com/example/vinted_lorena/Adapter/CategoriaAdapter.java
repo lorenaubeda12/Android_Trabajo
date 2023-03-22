@@ -47,7 +47,7 @@ public class CategoriaAdapter extends  ArrayAdapter<Categoria> {
         ImageView imgCategoria = convertView.findViewById(R.id.imgOpcion);
         TextView txtNombreCategoria= convertView.findViewById(R.id.txtNombreAccion);
 
-        String ulrImage = generateUrl(c.getImg_categoria());
+        String ulrImage = generateUrl(c.getIimgCategoria());
         Uri uri = Uri.parse(ulrImage);
         SimpleDraweeView draweeView = (SimpleDraweeView) convertView.findViewById(R.id.imgProductoMio);
         draweeView.setImageURI(uri);

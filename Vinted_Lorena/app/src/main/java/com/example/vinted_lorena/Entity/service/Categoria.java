@@ -6,8 +6,8 @@ public class Categoria {
     private  int id_categoria;
 
     private String nombre_categoria;
-    private String imgCategoria;
 
+private String img_categoria;
     public int getId_categoria() {
         return id_categoria;
     }
@@ -24,11 +24,11 @@ public class Categoria {
         this.nombre_categoria = nombre_categoria;
     }
 
-    public String getImg_categoria() {
+    public String getIimgCategoria() {
         return img_categoria;
     }
 
-    public void setImg_categoria(String img_categoria) {
+    public void setimgCategoria(String img_categoria) {
         this.img_categoria = img_categoria;
     }
 }
