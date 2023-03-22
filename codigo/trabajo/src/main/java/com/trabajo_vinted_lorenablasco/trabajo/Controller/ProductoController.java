@@ -6,6 +6,8 @@ import com.trabajo_vinted_lorenablasco.trabajo.Service.ProductoService;
 import com.trabajo_vinted_lorenablasco.trabajo.utils.GenericResponse;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/producto")
 public class ProductoController {
@@ -21,8 +23,8 @@ public class ProductoController {
         return this.service.listarProductos();
     }
 
-    @GetMapping("/misProductos")
-    public GenericResponse listarMisProductos(int id) {
+    @GetMapping("/misProductos/{id}")
+    public GenericResponse<List<Producto>> misProductos(@PathVariable int id){
         return this.service.listarProductosmios(id);
     }
     @PostMapping("")

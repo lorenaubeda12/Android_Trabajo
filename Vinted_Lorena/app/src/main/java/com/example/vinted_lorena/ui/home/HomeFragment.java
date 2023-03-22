@@ -1,13 +1,11 @@
 package com.example.vinted_lorena.ui.home;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,8 +19,6 @@ import com.example.vinted_lorena.Entity.service.Producto;
 import com.example.vinted_lorena.R;
 import com.example.vinted_lorena.databinding.FragmentHomeBinding;
 import com.example.vinted_lorena.view_model.ProductoViewModel;
-import com.google.android.material.badge.BadgeDrawable;
-import com.google.android.material.badge.BadgeUtils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -60,7 +56,7 @@ public class HomeFragment extends Fragment implements  SearchView.OnQueryTextLis
         ViewModelProvider vmp = new ViewModelProvider(this);
 
         //Productos
-        rcvProductos = v.findViewById(R.id.rcvProductos);
+        rcvProductos = v.findViewById(R.id.rcvProductos2);
         rcvProductos.setLayoutManager(new GridLayoutManager(getContext(), 1));
         productoViewModel = vmp.get(ProductoViewModel.class);
         buscador=v.findViewById(R.id.buscar);

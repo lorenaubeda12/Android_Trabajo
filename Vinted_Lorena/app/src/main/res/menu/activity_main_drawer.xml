@@ -9,8 +9,8 @@
 
             android:title="Inicio" />
         <item
-
-            android:title="Buscar" />
+            android:id="@+id/nav_gallery"
+            android:title="Mis productos" />
         <item
             android:id="@+id/nav_tienda"
 
