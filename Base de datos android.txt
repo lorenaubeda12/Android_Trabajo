@@ -17,6 +17,7 @@ CREATE TABLE  usuario(
 create table categoria(
     id_categoria INT NOT NULL AUTO_INCREMENT,
     nombre_categoria varchar(60) NOT NULL,
+	imgCategoria varchar(255) NOT NULL,
     PRIMARY KEY(id_categoria)
 );
 

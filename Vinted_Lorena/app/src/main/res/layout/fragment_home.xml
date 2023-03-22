@@ -23,11 +23,27 @@
                 android:layout_margin="10dp"
                 app:cardCornerRadius="10dp">
 
+
                 <SearchView
                     android:id="@+id/buscar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+
             </androidx.cardview.widget.CardView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Recomendados"
+                android:textColor="#009688"
+                android:textSize="24dp" />
+            <GridView
+                android:id="@+id/gvRecomendados"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:numColumns="3" />
 
             <TextView
                 android:layout_width="wrap_content"
