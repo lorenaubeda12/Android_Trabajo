@@ -1,5 +1,7 @@
 package com.example.vinted_lorena.ui.home;
 
+import static android.content.Intent.getIntent;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.SearchView;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vinted_lorena.Adapter.CategoriaAdapter;
@@ -42,10 +46,13 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     private ProductoAdapter adapterProductos;
     private List<Producto> listaProductos = new ArrayList<>();
     private SearchView buscador;
-    private CategoriaViewModel categoriaViewModel;
-    private GridView gridViewCategoria;
-    private CategoriaAdapter categoriaAdapter;
 
+
+    //Categorias
+    private CategoriaViewModel categoriaViewModel;
+    private CategoriaAdapter adapterCategoria;
+    private List<Categoria> lstCategoria = new ArrayList<>();
+    private RecyclerView rcCategorias;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -60,13 +67,13 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         loadData();
     }
 
-    private void init(View v){
+    private void init(View v) {
         ViewModelProvider vmp = new ViewModelProvider(this);
 
         //Categorías
-        ViewModelProvider viewModelProvider = new ViewModelProvider(this);
-        categoriaViewModel = viewModelProvider.get(CategoriaViewModel.class);
-        gridViewCategoria = v.findViewById(R.id.gvRecomendados);
+        this.categoriaViewModel = vmp.get(CategoriaViewModel.class);
+        rcCategorias = v.findViewById(R.id.rcvCategorias);
+        rcCategorias.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
 
         //Productos
         rcvProductos = v.findViewById(R.id.rcvProductos2);
@@ -75,33 +82,30 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         buscador = v.findViewById(R.id.buscar);
 
     }
+
     private void initAdapter() {
 
         //Categorías
-        categoriaAdapter = new CategoriaAdapter(getContext(), R.layout.varios_item, new ArrayList<>());
-        gridViewCategoria.setAdapter(categoriaAdapter);
+        adapterCategoria = new CategoriaAdapter(lstCategoria);
+        rcCategorias.setAdapter(adapterCategoria);
+
         //Productos
         adapterProductos = new ProductoAdapter(listaProductos, this, this);
         rcvProductos.setAdapter(adapterProductos);
     }
-    private void loadData() {
 
+    private void loadData() {
         categoriaViewModel.listarCategoriasActivas().observe(getViewLifecycleOwner(), response -> {
-            if(response.getRpta() == 1){
-                categoriaAdapter.clear();
-                categoriaAdapter.addAll(response.getBody());
-                categoriaAdapter.notifyDataSetChanged();
-            }else{
-                System.out.println("Error al obtener las categorías activas");
-            }
+            adapterCategoria.updateItems(response.getBody());
         });
+
+
         productoViewModel.listarProductos().observe(getViewLifecycleOwner(), response -> {
             adapterProductos.updateItems(response.getBody());
             buscador.setOnQueryTextListener(this);
         });
 
     }
-
 
 
     @SuppressLint("UnsafeExperimentalUsageError")

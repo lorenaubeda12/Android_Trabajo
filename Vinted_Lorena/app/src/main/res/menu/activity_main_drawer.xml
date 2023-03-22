@@ -6,19 +6,17 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-
             android:title="Inicio" />
+        <item
+            android:id="@+id/nav_valoracion"
+            android:title="Recomendaciones" />
         <item
             android:id="@+id/nav_gallery"
             android:title="Mis productos" />
-        <item
-            android:id="@+id/nav_tienda"
 
-            android:title="Tienda" />
         <item
-            android:id="@+id/nav_vender"
-
-            android:title="Vender" />
+            android:id="@+id/nav_slideshow"
+            android:title="Mis compras" />
 
     </group>
 </menu>

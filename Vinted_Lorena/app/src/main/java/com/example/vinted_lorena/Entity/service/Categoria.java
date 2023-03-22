@@ -24,7 +24,7 @@ private String img_categoria;
         this.nombre_categoria = nombre_categoria;
     }
 
-    public String getIimgCategoria() {
+    public String getImg_categoria() {
         return img_categoria;
     }
 

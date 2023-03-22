@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.vinted_lorena.Entity.GenericResponse;
 import com.example.vinted_lorena.Entity.service.Categoria;
+
 import com.example.vinted_lorena.api.ConfigApi;
 import com.example.vinted_lorena.api.CategoriaApi;
 
