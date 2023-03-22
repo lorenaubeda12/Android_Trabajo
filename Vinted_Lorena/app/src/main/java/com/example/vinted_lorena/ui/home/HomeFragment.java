@@ -18,15 +18,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vinted_lorena.Adapter.CategoriaAdapter;
 import com.example.vinted_lorena.Adapter.ProductoAdapter;
+import com.example.vinted_lorena.Entity.service.Categoria;
 import com.example.vinted_lorena.Entity.service.Producto;
 import com.example.vinted_lorena.R;
 import com.example.vinted_lorena.databinding.FragmentHomeBinding;
 import com.example.vinted_lorena.view_model.CategoriaViewModel;
 import com.example.vinted_lorena.view_model.ProductoViewModel;
+import com.google.android.gms.maps.SupportMapFragment;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -43,11 +46,11 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     private GridView gridViewCategoria;
     private CategoriaAdapter categoriaAdapter;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
-
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -55,12 +58,15 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         init(view);
         initAdapter();
         loadData();
-        loadData();
     }
 
-
-    private void init(View v) {
+    private void init(View v){
         ViewModelProvider vmp = new ViewModelProvider(this);
+
+        //Categorías
+        ViewModelProvider viewModelProvider = new ViewModelProvider(this);
+        categoriaViewModel = viewModelProvider.get(CategoriaViewModel.class);
+        gridViewCategoria = v.findViewById(R.id.gvRecomendados);
 
         //Productos
         rcvProductos = v.findViewById(R.id.rcvProductos2);
@@ -68,34 +74,34 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         productoViewModel = vmp.get(ProductoViewModel.class);
         buscador = v.findViewById(R.id.buscar);
 
-        //Categorias
-        ViewModelProvider viewModelProvider = new ViewModelProvider(this);
-        categoriaViewModel = viewModelProvider.get(CategoriaViewModel.class);
-        gridViewCategoria = v.findViewById(R.id.gvRecomendados);
-
-
     }
-
     private void initAdapter() {
-        //Categoria
-        categoriaAdapter = new CategoriaAdapter(getContext(), R.layout.varios_item, new ArrayList<>());
-       /* rcvProductos.setAdapter(categoriaAdapter);*/
 
+        //Categorías
+        categoriaAdapter = new CategoriaAdapter(getContext(), R.layout.varios_item, new ArrayList<>());
+        gridViewCategoria.setAdapter(categoriaAdapter);
         //Productos
         adapterProductos = new ProductoAdapter(listaProductos, this, this);
         rcvProductos.setAdapter(adapterProductos);
-
-
     }
-
     private void loadData() {
+
+        categoriaViewModel.listarCategoriasActivas().observe(getViewLifecycleOwner(), response -> {
+            if(response.getRpta() == 1){
+                categoriaAdapter.clear();
+                categoriaAdapter.addAll(response.getBody());
+                categoriaAdapter.notifyDataSetChanged();
+            }else{
+                System.out.println("Error al obtener las categorías activas");
+            }
+        });
         productoViewModel.listarProductos().observe(getViewLifecycleOwner(), response -> {
             adapterProductos.updateItems(response.getBody());
             buscador.setOnQueryTextListener(this);
         });
 
-
     }
+
 
 
     @SuppressLint("UnsafeExperimentalUsageError")
@@ -106,13 +112,6 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                 .setContentText(message).show();
     }
 
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
-
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
@@ -120,7 +119,6 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        adapterProductos.filtrado(newText);
         return false;
     }
 }

@@ -15,36 +15,32 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Categoria_Repository {
-    private final CategoriaApi valoracionApi;
-    private static Categoria_Repository valoracion_repository;
+    private final CategoriaApi api;
+    private static Categoria_Repository repository;
 
     public Categoria_Repository() {
-        this.valoracionApi = ConfigApi.getCategoriaApi();
+        this.api = ConfigApi.getCategoriaApi();
     }
-
-    public static Categoria_Repository getInstance() {
-        if (valoracion_repository == null) {
-            valoracion_repository = new Categoria_Repository();
+    public static Categoria_Repository getInstance(){
+        if(repository == null){
+            repository = new Categoria_Repository();
         }
-        return valoracion_repository;
+        return repository;
     }
-
-    public LiveData<GenericResponse<List<Categoria>>> listarProductosConMasValoraciones() {
-        final MutableLiveData<GenericResponse<List<Categoria>>> mutableLiveData = new MutableLiveData<>();
-        this.valoracionApi.listarCategorias().enqueue(new Callback<GenericResponse<List<Categoria>>>() {
+    public LiveData<GenericResponse<List<Categoria>>> listarCategoriasActivas(){
+        final MutableLiveData<GenericResponse<List<Categoria>>> mld = new MutableLiveData<>();
+        this.api.listarCategoriasActivas().enqueue(new Callback<GenericResponse<List<Categoria>>>() {
             @Override
             public void onResponse(Call<GenericResponse<List<Categoria>>> call, Response<GenericResponse<List<Categoria>>> response) {
-                mutableLiveData.setValue(response.body());
+                mld.setValue(response.body());
             }
 
             @Override
             public void onFailure(Call<GenericResponse<List<Categoria>>> call, Throwable t) {
-                System.out.println("Error al obtener los datos" + t.getMessage());
+                System.out.println("Error al obtener las categorías: " + t.getMessage());
                 t.printStackTrace();
             }
         });
-        return mutableLiveData;
+        return mld;
     }
-
-
 }

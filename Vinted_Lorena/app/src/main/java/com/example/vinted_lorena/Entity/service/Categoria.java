@@ -6,7 +6,7 @@ public class Categoria {
     private  int id_categoria;
 
     private String nombre_categoria;
-    private String img_categoria;
+    private String imgCategoria;
 
     public int getId_categoria() {
         return id_categoria;
