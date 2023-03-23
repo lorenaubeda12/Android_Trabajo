@@ -48,4 +48,25 @@ public class Compra_Repository {
         });
         return mld;
     }
+
+
+
+    public LiveData<GenericResponse<Compra>> save(Compra compra) {
+        MutableLiveData<GenericResponse<Compra>> data = new MutableLiveData<>();
+        comprasApi.guardarCompra(compra).enqueue(new Callback<GenericResponse<Compra>>() {
+            @Override
+            public void onResponse(Call<GenericResponse<Compra>> call, Response<GenericResponse<Compra>> response) {
+                if (response.isSuccessful()) {
+                    data.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GenericResponse<Compra>> call, Throwable t) {
+                data.setValue(new GenericResponse<>());
+                t.printStackTrace();
+            }
+        });
+        return data;
+    }
 }

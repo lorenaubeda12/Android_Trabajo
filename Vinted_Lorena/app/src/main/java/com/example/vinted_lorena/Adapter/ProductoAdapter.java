@@ -1,7 +1,9 @@
 package com.example.vinted_lorena.Adapter;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +15,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.vinted_lorena.Activity.CompraActivity;
 import com.example.vinted_lorena.Activity.DetalleProductoActivity;
 import com.example.vinted_lorena.Communication.Communication;
+import com.example.vinted_lorena.Entity.service.Compra;
 import com.example.vinted_lorena.Entity.service.Producto;
+import com.example.vinted_lorena.Entity.service.Usuario;
 import com.example.vinted_lorena.R;
 import com.example.vinted_lorena.ui.home.HomeFragment;
 import com.example.vinted_lorena.utilis.DateSerializer;
@@ -79,6 +84,8 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
         }
 
         public void setItem(final Producto producto) {
+
+
             /* ImageView imgProducto = (ImageView)  itemView.findViewById(R.id.imgProducto);*/
 
             String ulrImage = generateUrl(producto.getImagen());
@@ -114,6 +121,26 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
                 i.putExtra("detalleProducto",g.toJson(producto));
                 communication.showDetails(i);
 
+            });
+
+            //Inicio vista Comprar
+            itemView.setOnClickListener(v->{
+                final Intent i = new Intent(itemView.getContext(), Compra.class);
+                final Intent x = new Intent(itemView.getContext(), Usuario.class);
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(itemView.getContext());
+                final Gson g = new GsonBuilder()
+                        .registerTypeAdapter(Date.class, new DateSerializer())
+                        .registerTypeAdapter(Time.class, new TimeSerializer())
+                        .create();
+                String usuarioJson = sp.getString("usuarioJson", null);
+                if (usuarioJson != null) {
+                    final Usuario u = g.fromJson(usuarioJson, Usuario.class);
+                    i.putExtra("compraProducto", g.toJson(producto));
+                    x.putExtra("usuario", g.toJson(u));
+
+                    communication.showDetails(i);
+                    communication.showDetails(x);
+                }
             });
 
 
