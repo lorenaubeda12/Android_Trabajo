@@ -31,4 +31,10 @@ public class ProductoController {
     public GenericResponse guardar(@RequestBody Producto p){
         return this.service.guardarProducto(p);
     }
+
+
+    @GetMapping("/producto/{id}")
+    public GenericResponse productoElegidoVer(@PathVariable int id){
+        return this.service.VerProductoElegido(id);
+    }
 }
