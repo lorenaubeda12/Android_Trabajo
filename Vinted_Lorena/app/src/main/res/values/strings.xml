@@ -12,11 +12,4 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_valoracion">Valoracion</string>
-
-        <string name="app_name2">Tipos de envio</string>
-        <string-array name="tiposEnvio">
-            <item>Urgente</item>
-            <item>Certificado</item>
-            <item>Estandar</item>
-        </string-array>
-    </resources>
+</resources>

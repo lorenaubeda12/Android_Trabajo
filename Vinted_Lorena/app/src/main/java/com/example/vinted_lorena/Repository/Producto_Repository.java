@@ -99,22 +99,4 @@ public class Producto_Repository {
     }
 
 
-    public LiveData<GenericResponse<List<Producto>>> productoId(String nombre) {
-        final MutableLiveData<GenericResponse<List<Producto>>> mutableLiveData = new MutableLiveData<>();
-        this.api.listarProductosNombre(nombre).enqueue(new Callback<GenericResponse<List<Producto>>>() {
-            @Override
-            public void onResponse(Call<GenericResponse<List<Producto>>> call, Response<GenericResponse<List<Producto>>> response) {
-                mutableLiveData.setValue(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<GenericResponse<List<Producto>>> call, Throwable t) {
-                mutableLiveData.setValue(new GenericResponse<>());
-                t.printStackTrace();
-            }
-        });
-        return mutableLiveData;
-    }
-
-
 }

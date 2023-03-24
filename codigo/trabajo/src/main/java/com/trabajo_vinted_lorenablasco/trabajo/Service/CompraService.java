@@ -2,16 +2,13 @@ package com.trabajo_vinted_lorenablasco.trabajo.Service;
 
 import com.trabajo_vinted_lorenablasco.trabajo.Entity.Compra;
 import com.trabajo_vinted_lorenablasco.trabajo.Entity.Valoracion;
-import com.trabajo_vinted_lorenablasco.trabajo.Entity.dto.CompraDetalles;
 import com.trabajo_vinted_lorenablasco.trabajo.Repository.Categoria_Repository;
 import com.trabajo_vinted_lorenablasco.trabajo.Repository.Compra_Repository;
 import com.trabajo_vinted_lorenablasco.trabajo.utils.GenericResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import static com.trabajo_vinted_lorenablasco.trabajo.utils.Global.*;
 

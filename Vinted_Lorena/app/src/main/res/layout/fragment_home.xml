@@ -21,15 +21,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
-                android:backgroundTint="#009688"
             app:cardElevation="8dp">
 
                 <SearchView
                     android:id="@+id/buscar"
-                    android:backgroundTint="#009688"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                   />
+                    android:layout_height="wrap_content" />
 
             </com.google.android.material.card.MaterialCardView>
             <TextView

@@ -1,7 +1,8 @@
 package com.trabajo_vinted_lorenablasco.trabajo.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 import java.sql.Date;
 
@@ -9,22 +10,17 @@ import java.sql.Date;
 public class Compra {
     @Id
     private int id_compra;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="id_producto"  , referencedColumnName = "id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Producto id_producto;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="id_usuario" , referencedColumnName = "id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Usuario id_usuario;
+    @Column
+    private int id_producto;
+    @Column
+    private int id_usuario;
     @Column
     private Date fecha_compra;
     @Column
     private  double precio_compra;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="tipo_Envio" , referencedColumnName = "id_tipo_envio")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Tipo_envio tipo_Envio;
+    @Column
+    private int tipo_Envio;
+
 
     public int getId_compra() {
         return id_compra;
@@ -34,16 +30,21 @@ public class Compra {
         this.id_compra = id_compra;
     }
 
+    public int getId_producto() {
+        return id_producto;
+    }
 
+    public void setId_producto(int id_producto) {
+        this.id_producto = id_producto;
+    }
 
-    public Usuario getId_usuario() {
+    public int getId_usuario() {
         return id_usuario;
     }
 
-    public void setId_usuario(Usuario id_usuario) {
+    public void setId_usuario(int id_usuario) {
         this.id_usuario = id_usuario;
     }
-
 
     public Date getFecha_compra() {
         return fecha_compra;
@@ -57,25 +58,15 @@ public class Compra {
         return precio_compra;
     }
 
-    public Producto getId_producto() {
-        return id_producto;
-    }
-
-    public void setId_producto(Producto id_producto) {
-        this.id_producto = id_producto;
-    }
-
-    public Tipo_envio getTipo_Envio() {
-        return tipo_Envio;
-    }
-
-    public void setTipo_Envio(Tipo_envio tipo_Envio) {
-        this.tipo_Envio = tipo_Envio;
-    }
-
     public void setPrecio_compra(double precio_compra) {
         this.precio_compra = precio_compra;
     }
 
+    public int getTipoEnvio() {
+        return tipo_Envio;
+    }
 
+    public void setTipoEnvio(int tipoEnvio) {
+        this.tipo_Envio = tipoEnvio;
+    }
 }
