@@ -17,7 +17,7 @@ public class Producto {
     private String imagen;
 
 
-    private int id_usuario;
+    private Usuario id_usuario;
 
 
     public int getId() {
@@ -68,11 +68,11 @@ public class Producto {
         this.imagen = imagen;
     }
 
-    public int getId_usuario() {
+    public Usuario getId_usuario() {
         return id_usuario;
     }
 
-    public void setId_usuario(int id_usuario) {
+    public void setId_usuario(Usuario id_usuario) {
         this.id_usuario = id_usuario;
     }
 }

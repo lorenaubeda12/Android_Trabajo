@@ -12,4 +12,14 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_valoracion">Valoracion</string>
+
+
+
+
+    <string-array name="tiposDeEnvio">
+        <item>Seleccione</item>
+        <item>Envio Certificado(+6€)</item>
+        <item>Envio Estándar(+5€)</item>
+        <item>Envio Urgente(+10€)</item>
+    </string-array>
 </resources>

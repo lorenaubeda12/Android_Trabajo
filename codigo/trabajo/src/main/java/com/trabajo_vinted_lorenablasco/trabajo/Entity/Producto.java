@@ -1,8 +1,7 @@
 package com.trabajo_vinted_lorenablasco.trabajo.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 
 @Entity
 public class Producto {
@@ -22,8 +21,10 @@ public class Producto {
     @Column
     private String imagen;
 
-    @Column
-    private int id_usuario;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Usuario id_usuario;
 
 
     public int getId() {
@@ -74,11 +75,11 @@ public class Producto {
         this.imagen = imagen;
     }
 
-    public int getId_usuario() {
+    public Usuario getId_usuario() {
         return id_usuario;
     }
 
-    public void setId_usuario(int id_usuario) {
+    public void setId_usuario(Usuario id_usuario) {
         this.id_usuario = id_usuario;
     }
 }

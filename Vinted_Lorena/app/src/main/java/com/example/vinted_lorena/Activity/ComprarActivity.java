@@ -6,11 +6,17 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.vinted_lorena.Entity.service.Producto;
+import com.example.vinted_lorena.Entity.service.Tipo_envio;
 import com.example.vinted_lorena.Entity.service.Usuario;
 import com.example.vinted_lorena.R;
 import com.example.vinted_lorena.api.ConfigApi;
@@ -24,12 +30,17 @@ import com.squareup.picasso.Picasso;
 import java.sql.Date;
 import java.sql.Time;
 
-public class ComprarActivity extends AppCompatActivity {
+public class ComprarActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private ImageView imgProductoDetalle;
-    private Button btnComprar;
-    private TextView tvNombreProducto, tvPrecioProducto, tvDescripcionProducto;
+    private Button btnFinalizarCompra;
+    private TextView tvNombreProducto, tvPrecioProducto, tvDescripcionProducto, tvPrecioFinal, tvVendedor;
+    private Spinner tipoEnvio;
 
+    static String elegidoEnvio;
+    static int tipoEnvioElegido;
+    static double precioProducto;
+    static double precioFinal;
     final Gson g = new GsonBuilder()
             .registerTypeAdapter(Date.class, new DateSerializer())
             .registerTypeAdapter(Time.class, new TimeSerializer())
@@ -43,6 +54,8 @@ public class ComprarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_comprar);
         init();
         loadData();
+
+
     }
 
 
@@ -53,11 +66,15 @@ public class ComprarActivity extends AppCompatActivity {
             this.finish();
             this.overridePendingTransition(R.anim.rigth_in, R.anim.rigth_out);
         });
+        this.tipoEnvio = findViewById(R.id.tipoEnvio);
+        this.tvVendedor = findViewById(R.id.vendedorProductoComprar);
         this.imgProductoDetalle = findViewById(R.id.productoComprar);
-        this.btnComprar = findViewById(R.id.btnPagar);
+        this.btnFinalizarCompra = findViewById(R.id.btnPagar);
         this.tvNombreProducto = findViewById(R.id.nombreProductoComprar);
-        this.tvPrecioProducto = findViewById(R.id.PrecioProductoComprar);
+        this.tvPrecioProducto = findViewById(R.id.precioProductoComprar);
         this.tvDescripcionProducto = findViewById(R.id.descripcionProductoComprar);
+        this.tvPrecioFinal = findViewById(R.id.PrecioFinalTotal);
+
 
     }
 
@@ -89,7 +106,61 @@ public class ComprarActivity extends AppCompatActivity {
                     this.tvNombreProducto.setText(this.producto.getNombre_producto());
                     this.tvPrecioProducto.setText(String.valueOf(this.producto.getPrecio()) + "€");
                     this.tvDescripcionProducto.setText(this.producto.getDescripcion());
+                    this.tvVendedor.setText(this.producto.getId_usuario().getnombreCompleto());
+                    this.tipoEnvio.setOnItemSelectedListener(this);
+                    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.tiposDeEnvio, android.R.layout.simple_spinner_item);
+                    this.tipoEnvio.setAdapter(adapter);
 
+                    precioProducto= this.producto.getPrecio();
+                    this.tipoEnvio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            elegidoEnvio = parent.getItemAtPosition(position).toString();
+                            if(elegidoEnvio.contains("Envio Estándar")){
+                                precioFinal=precioProducto+5;
+                                tipoEnvioElegido = 1;
+                                tvPrecioFinal.setText(String.valueOf(precioFinal)+"€");
+
+                            }else if(elegidoEnvio.contains("Envio Urgente")){
+                                precioFinal=precioProducto+10;
+                                tipoEnvioElegido = 3;
+                                tvPrecioFinal.setText(String.valueOf(precioFinal)+"€");
+
+                            }else if(elegidoEnvio.contains("Envio Certificado")){
+                                precioFinal=precioProducto+6;
+                                tipoEnvioElegido = 4;
+                                tvPrecioFinal.setText(String.valueOf(precioFinal)+"€");
+                            }else{
+                                Toast.makeText(ComprarActivity.this, "Se aplicara el envio basico que tiene un costo de 2€", Toast.LENGTH_SHORT).show();
+                                precioFinal=precioProducto+2;
+                                tipoEnvioElegido=2;
+                                tvPrecioFinal.setText(String.valueOf(precioFinal)+"€");
+
+                            }
+
+                            /*switch (elegidoEnvio) {
+                                case "Envio estándar":
+                                    precioFinal+=5;
+                                    tipoEnvioElegido = 1;
+
+                                case "Envio Urgente":
+                                    precioFinal+=10;
+                                    tipoEnvioElegido = 3;
+
+                                case "Envio Certificado":
+                                    precioFinal+=6;
+                                    tipoEnvioElegido = 4;
+
+                            }*/
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+
+                    });
+                   /* this.tvPrecioFinal.setText(String.valueOf(precioFinal)+"€");*/
 
                     String ulrImage = generateUrl(this.producto.getImagen());
                     Picasso picasso = new Picasso.Builder(this)
@@ -106,6 +177,16 @@ public class ComprarActivity extends AppCompatActivity {
 
         }
 
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }
