@@ -39,12 +39,12 @@ public class TipoEnvio_Repository {
         this.tipoEnvioIApi.listarTipoEnvioElegido(idEnvio).enqueue(new Callback<GenericResponse<Tipo_envio>>() {
             @Override
             public void onResponse(Call<GenericResponse<Tipo_envio>> call, Response<GenericResponse<Tipo_envio>> response) {
-                mutableLiveData.setValue(response.body());
+                mutableLiveData.postValue(response.body());
             }
 
             @Override
             public void onFailure(Call<GenericResponse<Tipo_envio>> call, Throwable t) {
-                mutableLiveData.setValue(new GenericResponse<>());
+                mutableLiveData.postValue(new GenericResponse<>());
                 t.printStackTrace();
             }
         });

@@ -1,5 +1,6 @@
 package com.trabajo_vinted_lorenablasco.trabajo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -18,6 +19,7 @@ public class Compra {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Usuario id_usuario;
     @Column
+    @JsonFormat(pattern="dd-MM-yyyy")
     private Date fecha_compra;
     @Column
     private  double precio_compra;

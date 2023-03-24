@@ -50,7 +50,7 @@ public class Compra_Repository {
         return mld;
     }
 
-    public LiveData<GenericResponse<Compra>>save(Compra compra){
+    public LiveData<Compra>save(Compra compra){
         final MutableLiveData<GenericResponse<Compra>>mutableLiveData= new MutableLiveData<>();
         this.comprasApi.save(compra).enqueue(new Callback<GenericResponse<Compra>>(){
 

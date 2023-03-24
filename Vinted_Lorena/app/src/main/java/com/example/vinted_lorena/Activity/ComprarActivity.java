@@ -1,10 +1,15 @@
 package com.example.vinted_lorena.Activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.SharedPreferences;
+import android.icu.util.LocaleData;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -35,7 +40,13 @@ import com.squareup.picasso.Picasso;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -48,8 +59,7 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
     private TextView tvNombreProducto, tvPrecioProducto, tvDescripcionProducto, tvPrecioFinal, tvVendedor;
     private Spinner tipoEnvio;
     static Usuario usuario;
-  /*  final ViewModelProvider vmp = new ViewModelProvider(this);
-    private CompraViewModel compraViewModel;*/
+    private CompraViewModel compraViewModel;
 
     static String elegidoEnvio;
     static int tipoEnvioElegido;
@@ -194,14 +204,20 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
         }
 
         btnFinalizarCompra.setOnClickListener(v -> {
-            guardarDatos();
+            try {
+                guardarDatos();
+            } catch (Exception ex) {
+                System.out.println(ex);
+                ex.printStackTrace();
+            }
         });
 
 
     }
 
     private void guardarDatos() {
-       /* this.compraViewModel=vmp.get(CompraViewModel.class);*/
+        /*   final ViewModelProvider vmp = new ViewModelProvider(this);
+         *//* this.compraViewModel=vmp.get(CompraViewModel.class);*/
         Compra compraNueva = new Compra();
         compraNueva.setId_producto(producto);
         compraNueva.setId_usuario(usuario);
@@ -210,15 +226,31 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
         });
         compraNueva.setTipo_Envio(envioElegido);
         compraNueva.setPrecio_compra(precioFinal);
-        long ahora = System.currentTimeMillis();
-        Date fecha = new Date(ahora);
-        compraNueva.setFecha_compra(fecha);
+
+        LocalDateTime now = LocalDateTime.now();
+        ZoneOffset offset = ZoneId.systemDefault().getRules().getOffset(now);
+        DateTimeFormatter formatter =DateTimeFormatter.ofPattern("yyyy-mm-dd");
+        compraNueva.setFecha_compra(new Date(now.toInstant(offset).toEpochMilli()));
+
+
+        CompraViewModel compraViewModel =
+                ViewModelProviders.of(this).get(CompraViewModel.class);
+        LiveData<Compra> s = compraViewModel.guardarCompra(compraNueva);
+
+        s.observe(this, new Observer<Compra>() {
+            @Override
+            public void onChanged(Compra compra) {
+                successMessage("bien!");
+            }
+        });
+
+
         try {
-           /* this.compraViewModel.guardarCompra(compraNueva).observe(this, cResponse -> {
+            this.compraViewModel.guardarCompra(compraNueva).observe(this, cResponse -> {
                 Toast.makeText(this, "Registro correcto", Toast.LENGTH_SHORT).show();
                 successMessage("registroCorrecto");
 
-            });*/
+            });
 
         } catch (Exception e) {
             Toast.makeText(this, "Se ha producido un error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
