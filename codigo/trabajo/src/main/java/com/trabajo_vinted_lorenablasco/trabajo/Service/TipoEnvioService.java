@@ -29,4 +29,10 @@ public class TipoEnvioService {
     }
 
 
+    public GenericResponse precioEnvio(int idEnvio){
+        return  new GenericResponse(TIPO_DATA,RPTA_OK,OPERACION_CORRECTA,this.envioRepository.precioEnvio(idEnvio));
+
+    }
+
+
 }

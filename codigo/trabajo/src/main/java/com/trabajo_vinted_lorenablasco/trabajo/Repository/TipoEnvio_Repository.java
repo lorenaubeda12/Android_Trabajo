@@ -8,8 +8,11 @@ import org.springframework.data.repository.CrudRepository;
 public interface TipoEnvio_Repository extends CrudRepository<Tipo_envio, Integer> {
 @Query("SELECT T  FROM Tipo_envio T")
     Iterable<Tipo_envio>listarTiposDeEnvio();
+    @Query("SELECT T  FROM Tipo_envio T WHERE T.id_tipo_envio=:tipoEnvio")
+    Tipo_envio elegirTipoEnvio(int tipoEnvio);
+
     @Query("SELECT T.precio  FROM Tipo_envio T WHERE T.id_tipo_envio=:tipoEnvio")
-    Iterable<Tipo_envio>elegirTipoEnvio(int tipoEnvio);
+    Iterable<Tipo_envio>precioEnvio(int tipoEnvio);
 
 
 }

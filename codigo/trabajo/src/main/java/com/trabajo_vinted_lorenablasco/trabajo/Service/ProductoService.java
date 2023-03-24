@@ -3,6 +3,7 @@ package com.trabajo_vinted_lorenablasco.trabajo.Service;
 import com.trabajo_vinted_lorenablasco.trabajo.Entity.Producto;
 import com.trabajo_vinted_lorenablasco.trabajo.Entity.Usuario;
 import com.trabajo_vinted_lorenablasco.trabajo.Repository.ProductoRepository;
+import com.trabajo_vinted_lorenablasco.trabajo.Repository.Usuario_Repository;
 import com.trabajo_vinted_lorenablasco.trabajo.utils.GenericResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -28,8 +29,8 @@ public class ProductoService {
 
     }
 
-    public GenericResponse listarProductosmios(int id_usuario) {
-        return new GenericResponse(TIPO_DATA, RPTA_OK, OPERACION_CORRECTA, this.productoRepository.listarProductosMios(id_usuario));
+    public GenericResponse listarProductosmios(int usuario) {
+        return new GenericResponse(TIPO_DATA, RPTA_OK, OPERACION_CORRECTA, this.productoRepository.listarProductosMios(usuario));
 
     }
 

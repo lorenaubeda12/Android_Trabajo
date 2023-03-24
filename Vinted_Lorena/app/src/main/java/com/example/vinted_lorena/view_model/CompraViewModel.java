@@ -24,4 +24,8 @@ public class CompraViewModel extends AndroidViewModel {
     public LiveData<GenericResponse<List<Compra>>> listarMisCompras(int id) {
         return this.repository.listarComprasCliente(id);
     }
+
+    public LiveData<GenericResponse<Compra>>guardarCompra(Compra compra) {
+        return this.repository.save(compra);
+    }
 }

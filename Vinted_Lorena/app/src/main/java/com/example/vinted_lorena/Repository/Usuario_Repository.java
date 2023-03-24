@@ -50,7 +50,7 @@ public class Usuario_Repository {
     }
 
     public LiveData<GenericResponse<Usuario>> save(Usuario usuario) {
-        final MutableLiveData<GenericResponse<Usuario>> mutableLiveData = new MutableLiveData<>();
+         MutableLiveData<GenericResponse<Usuario>> mutableLiveData = new MutableLiveData<>();
         this.usuarioApi.save(usuario).enqueue(new Callback<GenericResponse<Usuario>>() {
             @Override
             public void onResponse(Call<GenericResponse<Usuario>> call, Response<GenericResponse<Usuario>> response) {

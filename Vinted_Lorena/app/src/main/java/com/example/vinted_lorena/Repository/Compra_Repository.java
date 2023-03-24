@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.vinted_lorena.Entity.GenericResponse;
 import com.example.vinted_lorena.Entity.service.Compra;
+import com.example.vinted_lorena.Entity.service.Usuario;
 import com.example.vinted_lorena.api.ComprasApi;
 import com.example.vinted_lorena.api.ConfigApi;
 
@@ -47,5 +48,25 @@ public class Compra_Repository {
             }
         });
         return mld;
+    }
+
+    public LiveData<GenericResponse<Compra>>save(Compra compra){
+        final MutableLiveData<GenericResponse<Compra>>mutableLiveData= new MutableLiveData<>();
+        this.comprasApi.save(compra).enqueue(new Callback<GenericResponse<Compra>>(){
+
+            @Override
+            public void onResponse(Call<GenericResponse<Compra>> call, Response<GenericResponse<Compra>> response) {
+                mutableLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GenericResponse<Compra>> call, Throwable t) {
+                mutableLiveData.setValue(new GenericResponse<>());
+                System.out.println("Se ha producido un error :" + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+
+        return null;
     }
 }

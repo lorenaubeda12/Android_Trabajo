@@ -25,6 +25,7 @@ public class ConfigApi {
     private static UsuarioApi usuarioApi;
     private static CategoriaApi categoriaApi;
     private static ComprasApi comprasApi;
+    private static TipoEnvioIApi tipoEnvioIApi;
 
     static {
         initClient();
@@ -85,6 +86,14 @@ public class ConfigApi {
             comprasApi = retrofit.create(ComprasApi.class);
         }
         return comprasApi;
+    }
+
+
+    public static TipoEnvioIApi getTipoEnvioApi() {
+        if (tipoEnvioIApi == null) {
+            tipoEnvioIApi = retrofit.create(TipoEnvioIApi.class);
+        }
+        return tipoEnvioIApi;
     }
 
 

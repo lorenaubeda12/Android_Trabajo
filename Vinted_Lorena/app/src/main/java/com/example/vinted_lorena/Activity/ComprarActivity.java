@@ -2,6 +2,7 @@ package com.example.vinted_lorena.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,13 +16,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vinted_lorena.Entity.service.Compra;
 import com.example.vinted_lorena.Entity.service.Producto;
 import com.example.vinted_lorena.Entity.service.Tipo_envio;
 import com.example.vinted_lorena.Entity.service.Usuario;
 import com.example.vinted_lorena.R;
+import com.example.vinted_lorena.Repository.TipoEnvio_Repository;
 import com.example.vinted_lorena.api.ConfigApi;
+import com.example.vinted_lorena.api.TipoEnvioIApi;
 import com.example.vinted_lorena.utilis.DateSerializer;
 import com.example.vinted_lorena.utilis.TimeSerializer;
+import com.example.vinted_lorena.view_model.CompraViewModel;
+import com.example.vinted_lorena.view_model.UsuarioViewModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.OkHttp3Downloader;
@@ -29,6 +35,11 @@ import com.squareup.picasso.Picasso;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class ComprarActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -36,17 +47,23 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
     private Button btnFinalizarCompra;
     private TextView tvNombreProducto, tvPrecioProducto, tvDescripcionProducto, tvPrecioFinal, tvVendedor;
     private Spinner tipoEnvio;
+    static Usuario usuario;
+  /*  final ViewModelProvider vmp = new ViewModelProvider(this);
+    private CompraViewModel compraViewModel;*/
 
     static String elegidoEnvio;
     static int tipoEnvioElegido;
     static double precioProducto;
     static double precioFinal;
+    static Tipo_envio envioElegido;
     final Gson g = new GsonBuilder()
             .registerTypeAdapter(Date.class, new DateSerializer())
             .registerTypeAdapter(Time.class, new TimeSerializer())
             .create();
 
     Producto producto;
+
+    TipoEnvio_Repository tipoEnvioRepository = TipoEnvio_Repository.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +103,8 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
 
 
     private void loadData() {
-        final String producto = this.getIntent().getStringExtra("producto");
-        if (producto != null) {
+        final String productoElegido = this.getIntent().getStringExtra("producto");
+        if (productoElegido != null) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
             final Gson g = new GsonBuilder()
                     .registerTypeAdapter(Date.class, new DateSerializer())
@@ -96,13 +113,13 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
             String usuarioJson = sp.getString("usuarioJson", null);
             if (usuarioJson != null) {
 
-                final Usuario u = g.fromJson(usuarioJson, Usuario.class);
-                this.producto = g.fromJson(producto, Producto.class);
+                usuario = g.fromJson(usuarioJson, Usuario.class);
+                this.producto = g.fromJson(productoElegido, Producto.class);
                 this.tvNombreProducto.setText(this.producto.getNombre_producto());
                 this.tvPrecioProducto.setText(String.valueOf(this.producto.getPrecio()) + "€");
                 this.tvDescripcionProducto.setText(this.producto.getDescripcion());
-                if (producto != null) {
-                    this.producto = g.fromJson(producto, Producto.class);
+                if (productoElegido != null) {
+                    this.producto = g.fromJson(productoElegido, Producto.class);
                     this.tvNombreProducto.setText(this.producto.getNombre_producto());
                     this.tvPrecioProducto.setText(String.valueOf(this.producto.getPrecio()) + "€");
                     this.tvDescripcionProducto.setText(this.producto.getDescripcion());
@@ -111,30 +128,30 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
                     ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.tiposDeEnvio, android.R.layout.simple_spinner_item);
                     this.tipoEnvio.setAdapter(adapter);
 
-                    precioProducto= this.producto.getPrecio();
+                    precioProducto = this.producto.getPrecio();
                     this.tipoEnvio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             elegidoEnvio = parent.getItemAtPosition(position).toString();
-                            if(elegidoEnvio.contains("Envio Estándar")){
-                                precioFinal=precioProducto+5;
+                            if (elegidoEnvio.contains("Envio Estándar")) {
                                 tipoEnvioElegido = 1;
-                                tvPrecioFinal.setText(String.valueOf(precioFinal)+"€");
+                                precioFinal = precioProducto + 5;
+                                tvPrecioFinal.setText(String.valueOf(precioFinal) + "€");
 
-                            }else if(elegidoEnvio.contains("Envio Urgente")){
-                                precioFinal=precioProducto+10;
+                            } else if (elegidoEnvio.contains("Envio Urgente")) {
+                                precioFinal = precioProducto + 10;
                                 tipoEnvioElegido = 3;
-                                tvPrecioFinal.setText(String.valueOf(precioFinal)+"€");
+                                tvPrecioFinal.setText(String.valueOf(precioFinal) + "€");
 
-                            }else if(elegidoEnvio.contains("Envio Certificado")){
-                                precioFinal=precioProducto+6;
+                            } else if (elegidoEnvio.contains("Envio Certificado")) {
+                                precioFinal = precioProducto + 6;
                                 tipoEnvioElegido = 4;
-                                tvPrecioFinal.setText(String.valueOf(precioFinal)+"€");
-                            }else{
+                                tvPrecioFinal.setText(String.valueOf(precioFinal) + "€");
+                            } else {
                                 Toast.makeText(ComprarActivity.this, "Se aplicara el envio basico que tiene un costo de 2€", Toast.LENGTH_SHORT).show();
-                                precioFinal=precioProducto+2;
-                                tipoEnvioElegido=2;
-                                tvPrecioFinal.setText(String.valueOf(precioFinal)+"€");
+                                precioFinal = precioProducto + 2;
+                                tipoEnvioElegido = 2;
+                                tvPrecioFinal.setText(String.valueOf(precioFinal) + "€");
 
                             }
 
@@ -160,7 +177,7 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
                         }
 
                     });
-                   /* this.tvPrecioFinal.setText(String.valueOf(precioFinal)+"€");*/
+                    /* this.tvPrecioFinal.setText(String.valueOf(precioFinal)+"€");*/
 
                     String ulrImage = generateUrl(this.producto.getImagen());
                     Picasso picasso = new Picasso.Builder(this)
@@ -174,10 +191,45 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
                 }
             }
 
-
         }
 
+        btnFinalizarCompra.setOnClickListener(v -> {
+            guardarDatos();
+        });
 
+
+    }
+
+    private void guardarDatos() {
+       /* this.compraViewModel=vmp.get(CompraViewModel.class);*/
+        Compra compraNueva = new Compra();
+        compraNueva.setId_producto(producto);
+        compraNueva.setId_usuario(usuario);
+        tipoEnvioRepository.tipoEnvioElegido(tipoEnvioElegido).observe(this, response -> {
+            envioElegido = response.getBody();
+        });
+        compraNueva.setTipo_Envio(envioElegido);
+        compraNueva.setPrecio_compra(precioFinal);
+        long ahora = System.currentTimeMillis();
+        Date fecha = new Date(ahora);
+        compraNueva.setFecha_compra(fecha);
+        try {
+           /* this.compraViewModel.guardarCompra(compraNueva).observe(this, cResponse -> {
+                Toast.makeText(this, "Registro correcto", Toast.LENGTH_SHORT).show();
+                successMessage("registroCorrecto");
+
+            });*/
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Se ha producido un error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void successMessage(String message) {
+        new SweetAlertDialog(this,
+                SweetAlertDialog.SUCCESS_TYPE).setTitleText("Buen Trabajo!")
+                .setContentText(message).show();
     }
 
     @Override

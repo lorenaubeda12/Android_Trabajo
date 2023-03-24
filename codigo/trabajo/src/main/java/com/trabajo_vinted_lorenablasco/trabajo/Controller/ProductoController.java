@@ -1,6 +1,7 @@
 package com.trabajo_vinted_lorenablasco.trabajo.Controller;
 
 import com.trabajo_vinted_lorenablasco.trabajo.Entity.Producto;
+import com.trabajo_vinted_lorenablasco.trabajo.Entity.Usuario;
 import com.trabajo_vinted_lorenablasco.trabajo.Repository.ProductoRepository;
 import com.trabajo_vinted_lorenablasco.trabajo.Service.ProductoService;
 import com.trabajo_vinted_lorenablasco.trabajo.utils.GenericResponse;

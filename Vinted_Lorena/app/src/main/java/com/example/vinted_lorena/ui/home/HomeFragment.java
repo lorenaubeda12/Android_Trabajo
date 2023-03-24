@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         //Categorías
         this.categoriaViewModel = vmp.get(CategoriaViewModel.class);
         rcCategorias = v.findViewById(R.id.rcvCategorias);
-        rcCategorias.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        rcCategorias.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         //Productos
         rcvProductos = v.findViewById(R.id.rcvProductos2);
@@ -94,7 +94,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
             adapterCategoria.updateItems(response.getBody());
         });
 
-
+        //Llamar datos
         productoViewModel.listarProductos().observe(getViewLifecycleOwner(), response -> {
             adapterProductos.updateItems(response.getBody());
             buscador.setOnQueryTextListener(this);
