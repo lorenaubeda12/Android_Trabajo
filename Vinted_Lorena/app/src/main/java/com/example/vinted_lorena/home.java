@@ -1,6 +1,5 @@
 package com.example.vinted_lorena;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -69,7 +68,6 @@ public class home extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -82,8 +80,8 @@ public class home extends AppCompatActivity {
                 .registerTypeAdapter(Date.class, new DateSerializer())
                 .registerTypeAdapter(Time.class, new TimeSerializer())
                 .create();
-        String usuarioJson = sp.getString("usuarioJson", null);
-        if (usuarioJson != null) {
+        String usuarioJson = sp.getString("usuarioJson",null);
+        if(usuarioJson != null) {
             final Usuario u = g.fromJson(usuarioJson, Usuario.class);
             final View vistaHeader = binding.navView.getHeaderView(0);
             final TextView tvNombre = vistaHeader.findViewById(R.id.nombreHome),
@@ -107,14 +105,13 @@ public class home extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.cerrarSesion:
                 this.cerrar();
-                break;
+
+
 
 
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 
     private void cerrar() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

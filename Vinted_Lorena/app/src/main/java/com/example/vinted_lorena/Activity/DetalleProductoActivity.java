@@ -3,21 +3,14 @@ package com.example.vinted_lorena.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.vinted_lorena.Communication.Communication;
 import com.example.vinted_lorena.Entity.service.Producto;
-import com.example.vinted_lorena.Entity.service.Usuario;
 import com.example.vinted_lorena.R;
 import com.example.vinted_lorena.api.ConfigApi;
-import com.example.vinted_lorena.loginActivity;
 import com.example.vinted_lorena.utilis.DateSerializer;
 import com.example.vinted_lorena.utilis.TimeSerializer;
 import com.google.gson.Gson;
@@ -27,23 +20,20 @@ import com.squareup.picasso.Picasso;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.Locale;
 
-public class DetalleProductoActivity extends AppCompatActivity implements Communication{
+public class DetalleProductoActivity extends AppCompatActivity {
 
     private ImageView imgProductoDetalle;
     private Button btnComprar;
     private TextView tvNombreProducto, tvPrecioProducto, tvDescripcionProducto;
-    private final Communication communication;
+
     final Gson g = new GsonBuilder()
             .registerTypeAdapter(Date.class, new DateSerializer())
             .registerTypeAdapter(Time.class, new TimeSerializer())
             .create();
 
     Producto producto;
-
-    public DetalleProductoActivity(Communication communication) {
-        this.communication = communication;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,22 +91,6 @@ public class DetalleProductoActivity extends AppCompatActivity implements Commun
                 System.out.println("Error al obtener los detalles del platillo");
             }
 
-            btnComprar.setOnClickListener(v -> {
-
-
-
-            });
-
         }
-    }
-
-    @Override
-    public void showDetails(Intent i) {
-        startActivity(i);
-    }
-
-    @Override
-    public void exportInvoice(int idCli, int idOrden, String fileName) {
-
     }
 }
