@@ -3,11 +3,13 @@ package com.example.vinted_lorena.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.vinted_lorena.Communication.Communication;
 import com.example.vinted_lorena.Entity.service.Producto;
 import com.example.vinted_lorena.R;
 import com.example.vinted_lorena.api.ConfigApi;
@@ -22,7 +24,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.Locale;
 
-public class DetalleProductoActivity extends AppCompatActivity {
+public class DetalleProductoActivity extends AppCompatActivity implements Communication {
 
     private ImageView imgProductoDetalle;
     private Button btnComprar;
@@ -52,7 +54,7 @@ public class DetalleProductoActivity extends AppCompatActivity {
             this.overridePendingTransition(R.anim.rigth_in, R.anim.rigth_out);
         });
         this.imgProductoDetalle = findViewById(R.id.producto);
-        this.btnComprar = findViewById(R.id.btnComprar);
+        this.btnComprar = findViewById(R.id.btnComprarProducto);
         this.tvNombreProducto = findViewById(R.id.nombreProducto);
         this.tvPrecioProducto = findViewById(R.id.PrecioProducto);
         this.tvDescripcionProducto = findViewById(R.id.descripcionProducto);
@@ -88,9 +90,35 @@ public class DetalleProductoActivity extends AppCompatActivity {
                         .error(cn.pedant.SweetAlert.R.drawable.error_center_x)
                         .into(this.imgProductoDetalle);
             } else {
-                System.out.println("Error al obtener los detalles del platillo");
+                System.out.println("Error al obtener los detalles del producto");
             }
 
         }
+
+        btnComprar.setOnClickListener(x->{
+            final Intent intent = new Intent(this, ComprarActivity.class);
+            final Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(Date.class, new DateSerializer())
+                    .registerTypeAdapter(Time.class, new TimeSerializer())
+                    .create();
+
+            intent.putExtra("producto",gson.toJson(producto));
+            this.showDetails(intent);
+
+        });
+
+
+
+    }
+
+    @Override
+    public void showDetails(Intent i) {
+        this.startActivity(i);
+        this.overridePendingTransition(R.anim.left_in, R.anim.left_out);
+    }
+
+    @Override
+    public void exportInvoice(int idCli, int idOrden, String fileName) {
+
     }
 }

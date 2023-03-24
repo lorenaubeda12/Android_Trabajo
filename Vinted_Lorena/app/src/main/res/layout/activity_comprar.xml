@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
 
     android:orientation="vertical"
-    tools:context=".Activity.DetalleProductoActivity">
+    tools:context=".Activity.ComprarActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/purple_500"
                 app:navigationIcon="@drawable/ic_volver_atras"
-                app:title="Detalles del producto"
+                app:title="Detalles de compra"
                 app:titleTextColor="@color/white" />
         </com.google.android.material.appbar.AppBarLayout>
     </LinearLayout>
@@ -55,7 +55,7 @@
                         android:orientation="vertical">
 
                         <com.facebook.drawee.view.SimpleDraweeView
-                            android:id="@+id/producto"
+                            android:id="@+id/productoComprar"
                             android:layout_marginTop="10dp"
                             android:layout_width="300dp"
                             android:layout_height="300dp"
@@ -68,7 +68,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/nombreProducto"
+                                android:id="@+id/nombreProductoComprar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -77,12 +77,8 @@
                                 android:textColor="#000"
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
-
-
-
-
                             <TextView
-                                android:id="@+id/descripcionProducto"
+                                android:id="@+id/descripcionProductoComprar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
@@ -96,7 +92,7 @@
                                 android:textSize="15sp" />
 
                             <TextView
-                                android:id="@+id/PrecioProducto"
+                                android:id="@+id/PrecioProductoComprar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
@@ -117,11 +113,11 @@
 
 
                             <com.google.android.material.button.MaterialButton
-                                android:id="@+id/btnComprarProducto"
+                                android:id="@+id/btnPagar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:drawableEnd="@drawable/ic_money"
-                                android:text="Comprar" />
+                                android:text="Finalizar compra" />
                         </LinearLayout>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>

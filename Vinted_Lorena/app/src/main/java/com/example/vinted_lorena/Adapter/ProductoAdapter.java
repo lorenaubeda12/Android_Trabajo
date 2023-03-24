@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.vinted_lorena.Activity.ComprarActivity;
 import com.example.vinted_lorena.Activity.DetalleProductoActivity;
 import com.example.vinted_lorena.Communication.Communication;
 import com.example.vinted_lorena.Entity.service.Producto;
@@ -90,9 +91,9 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
             SearchView buscador = itemView.findViewById(R.id.buscar);
             TextView nombreProducto = itemView.findViewById(R.id.nombreProducto);
             TextView descipcionProducto = itemView.findViewById(R.id.descrip);
-            Button btnComprar = itemView.findViewById(R.id.btnVer);
+            Button btnVerProducto = itemView.findViewById(R.id.btnVer);
             TextView precioProducto = itemView.findViewById(R.id.precio);
-
+            Button btnComprarProducto = itemView.findViewById(R.id.btnComprarProducto);
 
             /*  Picasso.get().load(producto.getImagen()).resize(50,50).centerCrop().into(imgProducto);*/
             nombreProducto.setText(producto.getNombre_producto());
@@ -100,11 +101,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
             precioProducto.setText(String.valueOf(producto.getPrecio()) + "€");
 
 
-            btnComprar.setOnClickListener(v -> {
-                Toast.makeText(itemView.getContext(), producto.getNombre_producto(), Toast.LENGTH_SHORT).show();
-            });
-            //Inicio vista de detalle producto
-            itemView.setOnClickListener(v->{
+            btnVerProducto.setOnClickListener(v->{
                 final Intent i = new Intent(itemView.getContext(), DetalleProductoActivity.class);
                 final Gson g = new GsonBuilder()
                         .registerTypeAdapter(Date.class, new DateSerializer())
@@ -115,6 +112,31 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
                 communication.showDetails(i);
 
             });
+            //Inicio vista de detalle producto
+           /* itemView.setOnClickListener(v->{
+                final Intent i = new Intent(itemView.getContext(), DetalleProductoActivity.class);
+                final Gson g = new GsonBuilder()
+                        .registerTypeAdapter(Date.class, new DateSerializer())
+                        .registerTypeAdapter(Time.class, new TimeSerializer())
+                        .create();
+
+                i.putExtra("detalleProducto",g.toJson(producto));
+                communication.showDetails(i);
+
+            });*/
+/*
+            btnComprarProducto.setOnClickListener(x->{
+                final Intent intent = new Intent(itemView.getContext(), ComprarActivity.class);
+                final Gson gson = new GsonBuilder()
+                        .registerTypeAdapter(Date.class, new DateSerializer())
+                        .registerTypeAdapter(Time.class, new TimeSerializer())
+                        .create();
+
+                intent.putExtra("producto",gson.toJson(producto));
+                communication.showDetails(intent);
+
+            });*/
+
 
 
         }

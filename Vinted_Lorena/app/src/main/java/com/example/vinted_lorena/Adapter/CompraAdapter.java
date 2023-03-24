@@ -72,7 +72,6 @@ public class CompraAdapter extends RecyclerView.Adapter<CompraAdapter.ViewHolder
             draweeView.setImageURI(uri);
 
 
-            System.out.println("Cambio para empezar frescos.");
             txtCodigoCompra.setText(""+c.getId_compra());
             txtDescipCompra.setText(c.getId_producto().getDescripcion());
             txtNombreCompra.setText(c.getId_producto().getNombre_producto());
