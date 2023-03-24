@@ -24,6 +24,7 @@ public class ConfigApi {
     private static ProductoApi productoApi;
     private static UsuarioApi usuarioApi;
     private static CategoriaApi categoriaApi;
+    private static ComprasApi comprasApi;
 
     static {
         initClient();
@@ -77,6 +78,13 @@ public class ConfigApi {
             categoriaApi = retrofit.create(CategoriaApi.class);
         }
         return categoriaApi;
+    }
+
+    public static ComprasApi getComprasApi() {
+        if (comprasApi == null) {
+            comprasApi = retrofit.create(ComprasApi.class);
+        }
+        return comprasApi;
     }
 
 

@@ -1,31 +1,81 @@
 package com.example.vinted_lorena.ui.slideshow;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.vinted_lorena.Adapter.CompraAdapter;
+import com.example.vinted_lorena.Entity.service.Usuario;
 import com.example.vinted_lorena.R;
 import com.example.vinted_lorena.databinding.FragmentSlideshowBinding;
+import com.example.vinted_lorena.utilis.DateSerializer;
+import com.example.vinted_lorena.utilis.TimeSerializer;
+import com.example.vinted_lorena.view_model.CompraViewModel;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.sql.Date;
+import java.sql.Time;
+import java.util.ArrayList;
 
 public class SlideshowFragment extends Fragment {
+    private CompraViewModel pedidoViewModel;
+    private RecyclerView rcvPedidos;
+    private CompraAdapter adapter;
 
-    private FragmentSlideshowBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_slideshow, container, false);
-    }
 
+    }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        init(view);
+        initViewModel();
+        initAdapter();
+        loadData();
     }
+
+    private void init(View v) {
+        rcvPedidos = v.findViewById(R.id.rcvMisCompras);
+    }
+
+    private void initAdapter() {
+        adapter = new CompraAdapter(new ArrayList<>(), this, this);
+        rcvPedidos.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        rcvPedidos.setAdapter(adapter);
+    }
+
+    private void initViewModel() {
+        pedidoViewModel = new ViewModelProvider(this).get(CompraViewModel.class);
+    }
+
+    private void loadData() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+        final Gson g = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .registerTypeAdapter(Time.class, new TimeSerializer())
+                .create();
+        String usuarioJson = sp.getString("usuarioJson", null);
+        if (usuarioJson != null) {
+            final Usuario u = g.fromJson(usuarioJson, Usuario.class);
+            this.pedidoViewModel.listarMisCompras(u.getId()).observe(getViewLifecycleOwner(), response -> {
+                adapter.updateItems(response.getBody());
+            });
+        }
+    }
+
 }

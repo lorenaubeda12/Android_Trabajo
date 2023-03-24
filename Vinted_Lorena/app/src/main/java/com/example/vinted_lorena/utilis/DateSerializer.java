@@ -20,12 +20,7 @@ public class DateSerializer implements JsonDeserializer<Date>, JsonSerializer<Da
         String date = je.getAsString();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         formatter.setTimeZone(TimeZone.getDefault());
-        try {
-            return new Date(formatter.parse(date).getTime());
-        } catch (ParseException e) {
-            System.err.println("Failed to parse Date due to:" + e.getMessage());
-            return null;
-        }
+            return new Date(Long.parseLong(date));
     }
 
     @Override
