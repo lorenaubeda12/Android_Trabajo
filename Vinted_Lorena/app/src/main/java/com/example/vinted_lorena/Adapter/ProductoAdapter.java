@@ -139,6 +139,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
                     x.putExtra("usuario", g.toJson(u));
 
                     communication.showDetails(i);
+                    communication.showDetails(x);
                 }
             });
 
