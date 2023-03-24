@@ -23,12 +23,10 @@ public class Compra_Controller {
     }
 
 
-@GetMapping("/todas/{id}")
-
-    public GenericResponse listarCompras(@PathVariable int id) {
+    @GetMapping("/todas")
+    public GenericResponse listarCompras(int id) {
         return this.service.listarMisCompras(id);
     }
-
 
 
     @PostMapping("")

@@ -1,7 +1,5 @@
 package com.example.vinted_lorena.Entity.service;
 
-
-
 import java.sql.Date;
 
 
@@ -9,15 +7,16 @@ public class Compra {
 
     private int id_compra;
 
-    private Producto id_producto;
+    private int id_producto;
 
-    private Usuario id_usuario;
+    private int id_usuario;
 
     private Date fecha_compra;
 
     private  double precio_compra;
 
-    private Tipo_envio tipo_Envio;
+    private String tipoEnvio;
+
 
     public int getId_compra() {
         return id_compra;
@@ -27,16 +26,21 @@ public class Compra {
         this.id_compra = id_compra;
     }
 
+    public int getId_producto() {
+        return id_producto;
+    }
 
+    public void setId_producto(int id_producto) {
+        this.id_producto = id_producto;
+    }
 
-    public Usuario getId_usuario() {
+    public int getId_usuario() {
         return id_usuario;
     }
 
-    public void setId_usuario(Usuario id_usuario) {
+    public void setId_usuario(int id_usuario) {
         this.id_usuario = id_usuario;
     }
-
 
     public Date getFecha_compra() {
         return fecha_compra;
@@ -50,25 +54,15 @@ public class Compra {
         return precio_compra;
     }
 
-    public Producto getId_producto() {
-        return id_producto;
-    }
-
-    public void setId_producto(Producto id_producto) {
-        this.id_producto = id_producto;
-    }
-
-    public Tipo_envio getTipo_Envio() {
-        return tipo_Envio;
-    }
-
-    public void setTipo_Envio(Tipo_envio tipo_Envio) {
-        this.tipo_Envio = tipo_Envio;
-    }
-
     public void setPrecio_compra(double precio_compra) {
         this.precio_compra = precio_compra;
     }
 
+    public String getTipoEnvio() {
+        return tipoEnvio;
+    }
 
+    public void setTipoEnvio(String tipoEnvio) {
+        this.tipoEnvio = tipoEnvio;
+    }
 }

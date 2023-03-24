@@ -36,11 +36,6 @@ public class ProductoService {
     public GenericResponse guardarProducto(Producto p) {
         return new GenericResponse(TIPO_DATA, RPTA_OK, "Producto añadido", this.productoRepository.save(p));
     }
-
-
-    public GenericResponse VerProductoElegido(int idproducto) {
-        return new GenericResponse(TIPO_DATA, RPTA_OK, "Producto añadido", this.productoRepository.producto(idproducto));
-    }
 }
 
 

@@ -35,8 +35,4 @@ public class ProductoViewModel extends AndroidViewModel {
     public LiveData<GenericResponse<List<Producto>>>listarPorNombre(String nombre){
         return this.repository.listarPorNombre(nombre);
     }
-
-    public LiveData<GenericResponse<List<Producto>>>productoElegido(String nombre){
-        return this.repository.listarPorNombre(nombre);
-    }
 }
