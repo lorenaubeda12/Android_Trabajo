@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.util.LocaleData;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
@@ -239,9 +240,9 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
 
         CompraViewModel compraViewModel = new ViewModelProvider(this).get(CompraViewModel.class);
         compraViewModel.guardarCompra(compraNueva).observe(this, response -> {
-            Toast.makeText(this, "Registro correcto", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getApplicationContext(), home.class);
-            startActivity(intent);
+            successMessage("No olvides revisar tus compras en 'Mis compras'");
+            /*Intent intent = new Intent(getApplicationContext(), home.class);
+            startActivity(intent);*/
         });
 
      /*   s.observe(this, compraGenericResponse -> {
@@ -254,9 +255,23 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
     }
 
     public void successMessage(String message) {
+        Handler handler = new Handler();
         new SweetAlertDialog(this,
-                SweetAlertDialog.SUCCESS_TYPE).setTitleText("Buen Trabajo!")
+                SweetAlertDialog.SUCCESS_TYPE).setTitleText("¡Compra realizada!")
                 .setContentText(message).show();
+        int tiempoTranscurrir = 3000; //1 segundo, 1000 millisegundos.
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                //***Aquí agregamos el proceso a ejecutar.
+
+                Intent intent = new Intent(getApplicationContext(), home.class);
+                startActivity(intent);
+
+                handler.removeCallbacks(null);
+            }
+        }, tiempoTranscurrir );//define el tiemp
     }
 
     @Override
