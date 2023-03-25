@@ -3,15 +3,23 @@ package com.example.vinted_lorena.Activity;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.util.LocaleData;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -78,6 +86,9 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
     static Usuario usuario;
     private CompraViewModel compraViewModel;
 
+    private static final String CHANNEL_ID = "canal";
+    private PendingIntent pendingIntent;
+
 
     // Propiedades del cliente de correo
     private static Session session;         // Sesion de correo
@@ -103,7 +114,6 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
     Producto producto;
 
     TipoEnvio_Repository tipoEnvioRepository = TipoEnvio_Repository.getInstance();
-
 
 
     @Override
@@ -156,8 +166,8 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
         emailContenido = "¡Tu compra se ha realizado con éxito!\n Estos son los datos de tu compra: \n" +
                 "Producto: " + producto.getNombre_producto() +
                 "Descripción: " + producto.getDescripcion() +
-                "Precio: " + compra.getPrecio_compra()+
-                "Fecha: "+compra.getFecha_compra()
+                "Precio: " + compra.getPrecio_compra() +
+                "Fecha: " + compra.getFecha_compra()
         ;
         return emailContenido;
     }
@@ -318,11 +328,18 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
             session = Session.getDefaultInstance(properties, null);
 
             try {
-                enviarMensaje("Compra Vinted","¡Tu compra se ha realizado con éxito!\n Estos son los datos de tu compra: \n" +
+                enviarMensaje("Compra Vinted", "¡Tu compra se ha realizado con éxito!\n Estos son los datos de tu compra: \n" +
                         "Producto: " + producto.getNombre_producto() +
                         "Descripción: " + producto.getDescripcion() +
-                        "Precio: " + compraNueva.getPrecio_compra()+
-                        "Fecha: "+compraNueva.getFecha_compra());
+                        "Precio: " + compraNueva.getPrecio_compra() +
+                        "Fecha: " + compraNueva.getFecha_compra());
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    showNotification();
+                } else {
+                    showNewNotification();
+                }
+
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
@@ -339,6 +356,33 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
         });
         */
 
+    }
+
+    private void showNotification() {
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "NEW", NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        showNewNotification();
+    }
+
+    private void showNewNotification() {
+        setPedingIntent(ComprarActivity.class);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_stat_done_outline)
+                .setContentTitle("¡Tu compra ha sido procesada!")
+                .setContentText("Tu compra se ha realizado correctamente, recuerda mirar sus datos en 'Mis compras'")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent);
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getApplicationContext());
+        managerCompat.notify(1, builder.build());
+
+    }
+
+    private void setPedingIntent(Class<ComprarActivity> comprarActivityClass) {
+        Intent intent = new Intent(this, comprarActivityClass);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(comprarActivityClass);
+        stackBuilder.addNextIntent(intent);
+        pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public void successMessage(String message) {
