@@ -81,7 +81,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     private void initAdapter() {
 
         //Categorías
-        adapterCategoria = new CategoriaAdapter(lstCategoria);
+        adapterCategoria = new CategoriaAdapter(lstCategoria, this);
         rcCategorias.setAdapter(adapterCategoria);
 
         //Productos
@@ -99,6 +99,10 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
             adapterProductos.updateItems(response.getBody());
             buscador.setOnQueryTextListener(this);
         });
+
+
+
+
 
     }
 

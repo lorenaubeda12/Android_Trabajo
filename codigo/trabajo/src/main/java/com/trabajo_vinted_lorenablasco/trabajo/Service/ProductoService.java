@@ -42,6 +42,11 @@ public class ProductoService {
     public GenericResponse VerProductoElegido(int idproducto) {
         return new GenericResponse(TIPO_DATA, RPTA_OK, "Producto añadido", this.productoRepository.producto(idproducto));
     }
+
+    public GenericResponse listarProductosPorCategoria(int id) {
+        return new GenericResponse(TIPO_DATA, RPTA_OK, OPERACION_CORRECTA, this.productoRepository.listarProductosPorCategoria( id));
+
+    }
 }
 
 

@@ -69,21 +69,7 @@
                 android:textColor="#2e2e2e"
                 android:textSize="16sp" />
 
-            <Button
-                android:id="@+id/btnVer_misproductos"
-                android:layout_width="77dp"
-                android:layout_height="31dp"
-                android:layout_alignParentRight="true"
 
-                android:layout_alignParentBottom="true"
-
-                android:layout_marginRight="1dp"
-                android:layout_marginBottom="1dp"
-                android:backgroundTint="#00BCD4"
-                android:text="Ver"
-                android:textColor="#fff"
-                android:textSize="11dp"
-                android:textStyle="bold" />
 
 
         </RelativeLayout>

@@ -14,8 +14,6 @@
     <string name="menu_valoracion">Valoracion</string>
 
 
-
-
     <string-array name="tiposDeEnvio">
         <item>Seleccione</item>
         <item>Envio Certificado(+6€)</item>

@@ -75,7 +75,6 @@ public class misProductosAdapter extends RecyclerView.Adapter<misProductosAdapte
 
             TextView nombreProducto = itemView.findViewById(R.id.nombreProductoMio);
             TextView descipcionProducto = itemView.findViewById(R.id.MiProductodescrip);
-            Button btnVerProducto = itemView.findViewById(R.id.btnVer_misproductos);
             TextView precioProducto = itemView.findViewById(R.id.precioProductoMio);
 
 
@@ -83,9 +82,7 @@ public class misProductosAdapter extends RecyclerView.Adapter<misProductosAdapte
             nombreProducto.setText(producto.getNombre_producto());
             descipcionProducto.setText(producto.getDescripcion());
             precioProducto.setText(String.valueOf(producto.getPrecio()) + "€");
-            btnVerProducto.setOnClickListener(v -> {
-                Toast.makeText(itemView.getContext(), "Producto", Toast.LENGTH_SHORT).show();
-            });
+
 
         }
     }

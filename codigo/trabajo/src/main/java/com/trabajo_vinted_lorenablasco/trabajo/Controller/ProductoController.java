@@ -33,9 +33,15 @@ public class ProductoController {
         return this.service.guardarProducto(p);
     }
 
+    @GetMapping("/productoCategoria/{id}")
+    public GenericResponse verProductosPorCategoria(@PathVariable int id){
+        return this.service.listarProductosPorCategoria(id);
+    }
+
 
     @GetMapping("/producto/{id}")
     public GenericResponse productoElegidoVer(@PathVariable int id){
         return this.service.VerProductoElegido(id);
     }
 }
+

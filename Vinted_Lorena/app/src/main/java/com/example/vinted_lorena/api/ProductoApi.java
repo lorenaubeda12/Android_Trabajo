@@ -20,8 +20,8 @@ public interface ProductoApi {
     @GET(baseUrl + "/misProductos/{id}")
     Call<GenericResponse<List<Producto>>> listarMisProductos(@Path("id") int id);
 
-    @GET(baseUrl+"/{idCategoria}")
-    Call<GenericResponse<List<Producto>>> listarProductosCategoria(@Path("idCategoria") int idCategoria);
+    @GET(baseUrl+"/productoCategoria/{id}")
+    Call<GenericResponse<List<Producto>>> listarProductosCategoria(@Path("id") int idCategoria);
 
 
     @GET(baseUrl+"/{nombre}")
