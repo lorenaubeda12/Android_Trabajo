@@ -11,8 +11,10 @@ import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.util.LocaleData;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
@@ -55,6 +57,15 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -66,6 +77,18 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
     private Spinner tipoEnvio;
     static Usuario usuario;
     private CompraViewModel compraViewModel;
+
+
+    // Propiedades del cliente de correo
+    private static Session session;         // Sesion de correo
+    private static Properties properties;   // Propiedades de la sesion
+    private static Transport transport;     // Envio del correo
+    private static MimeMessage mensaje;     // Mensaje que enviaremos
+
+    // Credenciales de usuario
+    private static String direccionCorreo = "a26013@svalero.com";   // Dirección de correo
+    private static String contrasenyaCorreo = "!675y8$s";                 // Contraseña
+
 
     static String elegidoEnvio;
     static int tipoEnvioElegido;
@@ -81,18 +104,33 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
 
     TipoEnvio_Repository tipoEnvioRepository = TipoEnvio_Repository.getInstance();
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comprar);
-        init();
+        try {
+            init();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+        // Ajustamos primero las properties
+        properties = System.getProperties();
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.socketFactory.port", "465");
+        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.port", "465");
+
         loadData();
 
 
     }
 
 
-    private void init() {
+    private void init() throws MessagingException {
         Toolbar toolbar = this.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_volver_atras);
         toolbar.setNavigationOnClickListener(v -> {//Reemplazo con lamba
@@ -111,12 +149,44 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
 
     }
 
+
+    public String emial(Compra compra) {
+
+        String emailContenido;
+        emailContenido = "¡Tu compra se ha realizado con éxito!\n Estos son los datos de tu compra: \n" +
+                "Producto: " + producto.getNombre_producto() +
+                "Descripción: " + producto.getDescripcion() +
+                "Precio: " + compra.getPrecio_compra()+
+                "Fecha: "+compra.getFecha_compra()
+        ;
+        return emailContenido;
+    }
+
     public String generateUrl(String s) {
         String[] p = s.split("/");
         String link = "https://drive.google.com/uc?export=download&id=" + p[5];
         return link;
     }
 
+    public static void enviarMensaje(String subject, String content) throws MessagingException {
+
+        // Configuramos los valores de nuestro mensaje
+        mensaje = new MimeMessage(session);
+        mensaje.addRecipient(Message.RecipientType.TO, new InternetAddress(usuario.getEmail()));
+        mensaje.setSubject(subject);
+        mensaje.setContent(content, "text/html");
+
+        // Configuramos como sera el envio del correo
+        transport = session.getTransport("smtp");
+        transport.connect("smtp.gmail.com", direccionCorreo, contrasenyaCorreo);
+        transport.sendMessage(mensaje, mensaje.getAllRecipients());
+        transport.close();
+
+        // Mostramos que el mensaje se ha enviado correctamente
+        System.out.println("--------------------------");
+        System.out.println("Mensaje enviado");
+        System.out.println("---------------------------");
+    }
 
     private void loadData() {
         final String productoElegido = this.getIntent().getStringExtra("producto");
@@ -223,6 +293,10 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void guardarDatos() {
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
         /*   final ViewModelProvider vmp = new ViewModelProvider(this);
          *//* this.compraViewModel=vmp.get(CompraViewModel.class);*/
         Compra compraNueva = new Compra();
@@ -234,13 +308,26 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
 
         LocalDateTime now = LocalDateTime.now();
         ZoneOffset offset = ZoneId.systemDefault().getRules().getOffset(now);
-        DateTimeFormatter formatter =DateTimeFormatter.ofPattern("yyyy-mm-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
         compraNueva.setFecha_compra(new Date(now.toInstant(offset).toEpochMilli()));
 
 
         CompraViewModel compraViewModel = new ViewModelProvider(this).get(CompraViewModel.class);
         compraViewModel.guardarCompra(compraNueva).observe(this, response -> {
+            //Configuramos la sesión
+            session = Session.getDefaultInstance(properties, null);
+
+            try {
+                enviarMensaje("Compra Vinted","¡Tu compra se ha realizado con éxito!\n Estos son los datos de tu compra: \n" +
+                        "Producto: " + producto.getNombre_producto() +
+                        "Descripción: " + producto.getDescripcion() +
+                        "Precio: " + compraNueva.getPrecio_compra()+
+                        "Fecha: "+compraNueva.getFecha_compra());
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
             successMessage("No olvides revisar tus compras en 'Mis compras'");
+
             /*Intent intent = new Intent(getApplicationContext(), home.class);
             startActivity(intent);*/
         });
@@ -255,6 +342,7 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
     }
 
     public void successMessage(String message) {
+
         Handler handler = new Handler();
         new SweetAlertDialog(this,
                 SweetAlertDialog.SUCCESS_TYPE).setTitleText("¡Compra realizada!")
@@ -271,7 +359,7 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
 
                 handler.removeCallbacks(null);
             }
-        }, tiempoTranscurrir );//define el tiemp
+        }, tiempoTranscurrir);//define el tiemp
     }
 
     @Override

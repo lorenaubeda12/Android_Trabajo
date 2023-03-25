@@ -102,7 +102,6 @@ dependencies {
             because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
         }
     }
-
     implementation 'com.facebook.fresco:fresco:1.13.0'
 
 
