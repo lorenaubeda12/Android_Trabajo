@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.util.LocaleData;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vinted_lorena.Entity.GenericResponse;
 import com.example.vinted_lorena.Entity.service.Compra;
 import com.example.vinted_lorena.Entity.service.Producto;
 import com.example.vinted_lorena.Entity.service.Tipo_envio;
@@ -29,6 +31,9 @@ import com.example.vinted_lorena.R;
 import com.example.vinted_lorena.Repository.TipoEnvio_Repository;
 import com.example.vinted_lorena.api.ConfigApi;
 import com.example.vinted_lorena.api.TipoEnvioIApi;
+import com.example.vinted_lorena.home;
+import com.example.vinted_lorena.loginActivity;
+import com.example.vinted_lorena.ui.home.HomeFragment;
 import com.example.vinted_lorena.utilis.DateSerializer;
 import com.example.vinted_lorena.utilis.TimeSerializer;
 import com.example.vinted_lorena.view_model.CompraViewModel;
@@ -209,6 +214,7 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
             } catch (Exception ex) {
                 System.out.println(ex);
                 ex.printStackTrace();
+                Toast.makeText(this, "Se ha producido un error : " + ex.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -221,9 +227,7 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
         Compra compraNueva = new Compra();
         compraNueva.setId_producto(producto);
         compraNueva.setId_usuario(usuario);
-        tipoEnvioRepository.tipoEnvioElegido(tipoEnvioElegido).observe(this, response -> {
-            envioElegido = response.getBody();
-        });
+        envioElegido = Tipo_envio.datosTipoEnvio(tipoEnvioElegido);
         compraNueva.setTipo_Envio(envioElegido);
         compraNueva.setPrecio_compra(precioFinal);
 
@@ -233,28 +237,19 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
         compraNueva.setFecha_compra(new Date(now.toInstant(offset).toEpochMilli()));
 
 
-        CompraViewModel compraViewModel =
-                ViewModelProviders.of(this).get(CompraViewModel.class);
-        LiveData<Compra> s = compraViewModel.guardarCompra(compraNueva);
-
-        s.observe(this, new Observer<Compra>() {
-            @Override
-            public void onChanged(Compra compra) {
-                successMessage("bien!");
-            }
+        CompraViewModel compraViewModel = new ViewModelProvider(this).get(CompraViewModel.class);
+        compraViewModel.guardarCompra(compraNueva).observe(this, response -> {
+            Toast.makeText(this, "Registro correcto", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), home.class);
+            startActivity(intent);
         });
 
-
-        try {
-            this.compraViewModel.guardarCompra(compraNueva).observe(this, cResponse -> {
-                Toast.makeText(this, "Registro correcto", Toast.LENGTH_SHORT).show();
-                successMessage("registroCorrecto");
-
-            });
-
-        } catch (Exception e) {
-            Toast.makeText(this, "Se ha producido un error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+     /*   s.observe(this, compraGenericResponse -> {
+            successMessage("ha ido bien!");
+            Intent intent = new Intent(getApplicationContext(), HomeFragment.class);
+            startActivity(intent);
+        });
+        */
 
     }
 

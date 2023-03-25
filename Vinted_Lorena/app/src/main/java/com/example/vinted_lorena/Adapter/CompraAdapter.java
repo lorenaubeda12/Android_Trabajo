@@ -15,6 +15,7 @@ import com.example.vinted_lorena.R;
 import com.example.vinted_lorena.ui.slideshow.SlideshowFragment;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CompraAdapter extends RecyclerView.Adapter<CompraAdapter.ViewHolder> {
@@ -22,7 +23,8 @@ public class CompraAdapter extends RecyclerView.Adapter<CompraAdapter.ViewHolder
     private final List<Compra> compras;
 
     public CompraAdapter(List<Compra> compras, SlideshowFragment slideshowFragment, SlideshowFragment fragment) {
-        this.compras = compras;
+        this.compras= new ArrayList<>();
+        compras.addAll(compras);
     }
 
     @NonNull
