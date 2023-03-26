@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.trabajo_vinted_lorenablasco.trabajo.utils.Global.*;
@@ -42,11 +43,18 @@ public class ProductoService {
     public GenericResponse VerProductoElegido(int idproducto) {
         return new GenericResponse(TIPO_DATA, RPTA_OK, "Producto añadido", this.productoRepository.producto(idproducto));
     }
+    public GenericResponse listar10ProductosMejorValorados(Iterable<Integer> idsValoradas) {
+        return new GenericResponse(TIPO_DATA, RPTA_OK, OPERACION_CORRECTA, this.productoRepository.productosMejorValorados(idsValoradas));
+    }
+    public Iterable<Integer> listar10idsMejorValoradas() {
+        return this.productoRepository.idsMejorValoradas();
+    }
 
     public GenericResponse listarProductosPorCategoria(int id) {
         return new GenericResponse(TIPO_DATA, RPTA_OK, OPERACION_CORRECTA, this.productoRepository.listarProductosPorCategoria( id));
 
     }
+
 }
 
 

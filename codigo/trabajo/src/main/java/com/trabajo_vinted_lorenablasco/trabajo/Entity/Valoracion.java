@@ -1,17 +1,20 @@
 package com.trabajo_vinted_lorenablasco.trabajo.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 
 @Entity
 public class Valoracion {
     @Id
     private int id_Valoracion;
-    @Column
-    private int id_producto;
-    @Column
-    private int  id_usuario;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_producto", referencedColumnName = "id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Producto id_producto;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private  Usuario  id_usuario;
     @Column
     private int id_compra;
     @Column
@@ -25,19 +28,19 @@ public class Valoracion {
         this.id_Valoracion = id_Valoracion;
     }
 
-    public int getId_producto() {
+    public Producto getId_producto() {
         return id_producto;
     }
 
-    public void setId_producto(int id_producto) {
+    public void setId_producto(Producto id_producto) {
         this.id_producto = id_producto;
     }
 
-    public int getId_usuario() {
+    public Usuario getId_usuario() {
         return id_usuario;
     }
 
-    public void setId_usuario(int id_usuario) {
+    public void setId_usuario(Usuario id_usuario) {
         this.id_usuario = id_usuario;
     }
 

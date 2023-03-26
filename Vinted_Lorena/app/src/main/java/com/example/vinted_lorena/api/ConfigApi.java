@@ -27,6 +27,7 @@ public class ConfigApi {
     private static ComprasApi comprasApi;
     private static TipoEnvioIApi tipoEnvioIApi;
 
+
     static {
         initClient();
     }
@@ -95,6 +96,8 @@ public class ConfigApi {
         }
         return tipoEnvioIApi;
     }
+
+
 
 
 }

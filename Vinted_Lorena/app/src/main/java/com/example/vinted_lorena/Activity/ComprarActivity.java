@@ -292,6 +292,11 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
         btnFinalizarCompra.setOnClickListener(v -> {
             try {
                 guardarDatos();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    showNotification();
+                } else {
+                    showNewNotification();
+                }
             } catch (Exception ex) {
                 System.out.println(ex);
                 ex.printStackTrace();
@@ -334,12 +339,6 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
                         "Precio: " + compraNueva.getPrecio_compra() +
                         "Fecha: " + compraNueva.getFecha_compra());
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    showNotification();
-                } else {
-                    showNewNotification();
-                }
-
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
@@ -348,6 +347,11 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
             /*Intent intent = new Intent(getApplicationContext(), home.class);
             startActivity(intent);*/
         });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            showNotification();
+        } else {
+            showNewNotification();
+        }
 
      /*   s.observe(this, compraGenericResponse -> {
             successMessage("ha ido bien!");

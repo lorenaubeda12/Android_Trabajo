@@ -13,22 +13,26 @@ public interface ProductoApi {
     //Ruta del controller del usuario
     String baseUrl = "api/producto";
 
-    @GET(baseUrl+"/todos")
+    @GET(baseUrl + "/todos")
     Call<GenericResponse<List<Producto>>> listarProductos();
 
 
     @GET(baseUrl + "/misProductos/{id}")
     Call<GenericResponse<List<Producto>>> listarMisProductos(@Path("id") int id);
 
-    @GET(baseUrl+"/productoCategoria/{id}")
+    @GET(baseUrl + "/productoCategoria/{id}")
     Call<GenericResponse<List<Producto>>> listarProductosCategoria(@Path("id") int idCategoria);
 
 
-    @GET(baseUrl+"/{nombre}")
+    @GET(baseUrl + "/{nombre}")
     Call<GenericResponse<List<Producto>>> listarProductosNombre(@Path("nombre") String nombre);
 
 
-    @GET(baseUrl+"/producto/{id}")
+    @GET(baseUrl + "/productoValoraciones")
+    Call<GenericResponse<List<Producto>>> listar10ProductoMejorValorados();
+
+
+    @GET(baseUrl + "/producto/{id}")
     Call<GenericResponse<List<Producto>>> producto(@Path("nombre") String nombre);
 
 }
