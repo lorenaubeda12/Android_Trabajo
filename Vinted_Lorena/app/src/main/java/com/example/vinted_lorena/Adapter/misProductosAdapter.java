@@ -1,5 +1,6 @@
 package com.example.vinted_lorena.Adapter;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +13,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.vinted_lorena.Activity.ProductosPorCategoriaActivity;
+import com.example.vinted_lorena.Communication.Communication;
 import com.example.vinted_lorena.Entity.service.Producto;
 import com.example.vinted_lorena.R;
+import com.example.vinted_lorena.loginActivity;
 import com.example.vinted_lorena.ui.gallery.GalleryFragment;
 import com.example.vinted_lorena.ui.home.HomeFragment;
+import com.example.vinted_lorena.utilis.DateSerializer;
+import com.example.vinted_lorena.utilis.TimeSerializer;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +35,7 @@ import java.util.stream.Collectors;
 public class misProductosAdapter extends RecyclerView.Adapter<misProductosAdapter.ViewHolder> {
 
     private final List<Producto> misProductos;
+    private Communication communication;
 
     public misProductosAdapter(List<Producto> productoList, GalleryFragment homeFragment, GalleryFragment fragment) {
         this.misProductos = productoList;
@@ -75,7 +86,6 @@ public class misProductosAdapter extends RecyclerView.Adapter<misProductosAdapte
             TextView nombreProducto = itemView.findViewById(R.id.nombreProductoMio);
             TextView descipcionProducto = itemView.findViewById(R.id.MiProductodescrip);
             TextView precioProducto = itemView.findViewById(R.id.precioProductoMio);
-
 
 
             /*  Picasso.get().load(producto.getImagen()).resize(50,50).centerCrop().into(imgProducto);*/

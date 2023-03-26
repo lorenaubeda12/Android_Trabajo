@@ -1,11 +1,13 @@
 package com.example.vinted_lorena.ui.slideshow;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,9 +17,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vinted_lorena.Adapter.CompraAdapter;
+import com.example.vinted_lorena.AniadirProductoActivity;
 import com.example.vinted_lorena.Entity.service.Usuario;
 import com.example.vinted_lorena.R;
-import com.example.vinted_lorena.databinding.FragmentSlideshowBinding;
 import com.example.vinted_lorena.utilis.DateSerializer;
 import com.example.vinted_lorena.utilis.TimeSerializer;
 import com.example.vinted_lorena.view_model.CompraViewModel;
@@ -32,6 +34,7 @@ public class SlideshowFragment extends Fragment {
     private CompraViewModel pedidoViewModel;
     private RecyclerView rcvPedidos;
     private CompraAdapter adapter;
+    private Button btnAniadir;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -52,6 +55,7 @@ public class SlideshowFragment extends Fragment {
 
     private void init(View v) {
         rcvPedidos = v.findViewById(R.id.rcvMisCompras);
+
     }
 
     private void initAdapter() {
@@ -75,6 +79,14 @@ public class SlideshowFragment extends Fragment {
             final Usuario u = g.fromJson(usuarioJson, Usuario.class);
             this.pedidoViewModel.listarMisCompras(u.getId()).observe(getViewLifecycleOwner(), response -> {
                 adapter.updateItems(response.getBody());
+
+
+                btnAniadir.setOnClickListener(v -> {
+                    Intent intent = new Intent(getContext(), AniadirProductoActivity.class);
+                    startActivity(intent);
+
+
+                });
             });
         }
     }

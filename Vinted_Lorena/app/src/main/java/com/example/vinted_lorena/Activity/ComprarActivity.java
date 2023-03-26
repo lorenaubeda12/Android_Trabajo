@@ -160,18 +160,6 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
     }
 
 
-    public String emial(Compra compra) {
-
-        String emailContenido;
-        emailContenido = "¡Tu compra se ha realizado con éxito!\n Estos son los datos de tu compra: \n" +
-                "Producto: " + producto.getNombre_producto() +
-                "Descripción: " + producto.getDescripcion() +
-                "Precio: " + compra.getPrecio_compra() +
-                "Fecha: " + compra.getFecha_compra()
-        ;
-        return emailContenido;
-    }
-
     public String generateUrl(String s) {
         String[] p = s.split("/");
         String link = "https://drive.google.com/uc?export=download&id=" + p[5];
@@ -214,12 +202,16 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
                 this.tvNombreProducto.setText(this.producto.getNombre_producto());
                 this.tvPrecioProducto.setText(String.valueOf(this.producto.getPrecio()) + "€");
                 this.tvDescripcionProducto.setText(this.producto.getDescripcion());
+
+
                 if (productoElegido != null) {
                     this.producto = g.fromJson(productoElegido, Producto.class);
                     this.tvNombreProducto.setText(this.producto.getNombre_producto());
                     this.tvPrecioProducto.setText(String.valueOf(this.producto.getPrecio()) + "€");
                     this.tvDescripcionProducto.setText(this.producto.getDescripcion());
                     this.tvVendedor.setText(this.producto.getId_usuario().getnombreCompleto());
+
+
                     this.tipoEnvio.setOnItemSelectedListener(this);
                     ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.tiposDeEnvio, android.R.layout.simple_spinner_item);
                     this.tipoEnvio.setAdapter(adapter);

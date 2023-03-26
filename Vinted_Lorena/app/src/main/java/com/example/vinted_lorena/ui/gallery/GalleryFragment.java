@@ -1,6 +1,7 @@
 package com.example.vinted_lorena.ui.gallery;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -17,7 +18,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.vinted_lorena.Activity.DetalleProductoActivity;
 import com.example.vinted_lorena.Adapter.misProductosAdapter;
+import com.example.vinted_lorena.AniadirProductoActivity;
 import com.example.vinted_lorena.Entity.service.Producto;
 import com.example.vinted_lorena.Entity.service.Usuario;
 import com.example.vinted_lorena.R;
@@ -84,12 +87,15 @@ public class GalleryFragment extends Fragment {
             if (user.getTipo_usuario().toLowerCase().contains("vendedor")) {
                 textoProductosAniadir.setVisibility(View.VISIBLE);
                 btnAniadirProducto.setVisibility(View.VISIBLE);
+
             } else {
                 textoProductosAniadir.setVisibility(View.GONE);
                 btnAniadirProducto.setVisibility(View.GONE);
             }
 
         }
+
+
     }
 
     private void initAdapter() {
@@ -107,12 +113,17 @@ public class GalleryFragment extends Fragment {
         String usuarioJson = sp.getString("usuarioJson", null);
         if (usuarioJson != null) {
             final Usuario u = g.fromJson(usuarioJson, Usuario.class);
-
-
             //Productos
             this.productoViewModel.listarMisProductos(u.getId()).observe(getViewLifecycleOwner(), response -> {
                 adapter.updateItem(response.getBody());
             });
+
+            btnAniadirProducto.setOnClickListener(v->{
+                final Intent i = new Intent(v.getContext(), AniadirProductoActivity.class);
+              startActivity(i);
+
+            });
+
         }
     }
 
