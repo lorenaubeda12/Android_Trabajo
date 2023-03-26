@@ -1,14 +1,13 @@
 package com.example.vinted_lorena.Entity.service;
 
 public class Valoracion {
-
     private int id_Valoracion;
 
-    private int id_producto;
+    private Producto id_producto;
 
-    private int  id_usuario;
+    private Usuario id_usuario;
 
-    private int id_compra;
+    private Compra id_compra;
 
     private int valoracion;
 
@@ -20,27 +19,27 @@ public class Valoracion {
         this.id_Valoracion = id_Valoracion;
     }
 
-    public int getId_producto() {
+    public Producto getId_producto() {
         return id_producto;
     }
 
-    public void setId_producto(int id_producto) {
+    public void setId_producto(Producto id_producto) {
         this.id_producto = id_producto;
     }
 
-    public int getId_usuario() {
+    public Usuario getId_usuario() {
         return id_usuario;
     }
 
-    public void setId_usuario(int id_usuario) {
+    public void setId_usuario(Usuario id_usuario) {
         this.id_usuario = id_usuario;
     }
 
-    public int getId_compra() {
+    public Compra getId_compra() {
         return id_compra;
     }
 
-    public void setId_compra(int id_compra) {
+    public void setId_compra(Compra id_compra) {
         this.id_compra = id_compra;
     }
 

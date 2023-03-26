@@ -18,7 +18,7 @@ public class Producto {
 
 
     private Usuario id_usuario;
-
+    private boolean estaValorado;
 
     public int getId() {
         return id;
@@ -74,5 +74,13 @@ public class Producto {
 
     public void setId_usuario(Usuario id_usuario) {
         this.id_usuario = id_usuario;
+    }
+
+    public boolean isEstaValorado() {
+        return estaValorado;
+    }
+
+    public void setEstaValorado(boolean estaValorado) {
+        this.estaValorado = estaValorado;
     }
 }

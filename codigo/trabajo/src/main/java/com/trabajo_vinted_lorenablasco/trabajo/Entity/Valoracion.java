@@ -15,8 +15,10 @@ public class Valoracion {
     @JoinColumn(name = "id_usuario", referencedColumnName = "id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private  Usuario  id_usuario;
-    @Column
-    private int id_compra;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_compra", referencedColumnName = "id_compra")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Compra id_compra;
     @Column
     private int valoracion;
 
@@ -44,11 +46,11 @@ public class Valoracion {
         this.id_usuario = id_usuario;
     }
 
-    public int getId_compra() {
+    public Compra getId_compra() {
         return id_compra;
     }
 
-    public void setId_compra(int id_compra) {
+    public void setId_compra(Compra id_compra) {
         this.id_compra = id_compra;
     }
 

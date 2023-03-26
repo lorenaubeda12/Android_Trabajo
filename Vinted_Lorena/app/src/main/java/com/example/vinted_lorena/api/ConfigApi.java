@@ -26,6 +26,7 @@ public class ConfigApi {
     private static CategoriaApi categoriaApi;
     private static ComprasApi comprasApi;
     private static TipoEnvioIApi tipoEnvioIApi;
+    private static ValoracionApi valoracionApi;
 
 
     static {
@@ -97,7 +98,12 @@ public class ConfigApi {
         return tipoEnvioIApi;
     }
 
-
+    public static ValoracionApi getValoracionApi() {
+        if (valoracionApi == null) {
+            valoracionApi = retrofit.create(ValoracionApi.class);
+        }
+        return valoracionApi;
+    }
 
 
 }

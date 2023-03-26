@@ -18,6 +18,13 @@
         android:theme="@style/Theme.Vinted_Lorena"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.ValoracionProductoActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".AniadirProductoActivity"
             android:exported="false">
             <meta-data

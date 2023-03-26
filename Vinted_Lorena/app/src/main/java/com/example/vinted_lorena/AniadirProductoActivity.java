@@ -110,7 +110,7 @@ public class AniadirProductoActivity extends AppCompatActivity implements Adapte
 
 
         if (nombre.length() == 0) {
-            Toast.makeText(this, "Ingrese su nombre", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Ingrese el nombre", Toast.LENGTH_LONG).show();
             retorno = false;
         }
         if (descripcion.length() == 0) {
@@ -201,12 +201,8 @@ public class AniadirProductoActivity extends AppCompatActivity implements Adapte
                 .create();
         String usuarioJson = sp.getString("usuarioJson", null);
         if (usuarioJson != null) {
-
-
             usuario = g.fromJson(usuarioJson, Usuario.class);
-
             if (validar()) {
-
                 String nombre=tvNombreProducto.getText().toString();
                 String descripcion = tvDescripcionProducto.getText().toString();
                 Double precio = Double.parseDouble(tvPrecioProducto.getText().toString());
@@ -256,8 +252,8 @@ public class AniadirProductoActivity extends AppCompatActivity implements Adapte
         setPedingIntent(ComprarActivity.class);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_stat_done_outline)
-                .setContentTitle("¡Tu compra ha sido procesada!")
-                .setContentText("Tu compra se ha realizado correctamente, recuerda mirar sus datos en 'Mis compras'")
+                .setContentTitle("¡Tu producto se ha subido con éxito!")
+                .setContentText("Revisa tus productos a la venta en Mis Productos'")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent);
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getApplicationContext());
@@ -288,6 +284,7 @@ public class AniadirProductoActivity extends AppCompatActivity implements Adapte
 
                 Intent intent = new Intent(getApplicationContext(), home.class);
                 startActivity(intent);
+
 
                 handler.removeCallbacks(null);
             }

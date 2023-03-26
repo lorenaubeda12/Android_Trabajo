@@ -9,7 +9,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="170dp"
         android:layout_margin="5dp"
         android:backgroundTint="#6134A58E"
         android:elevation="5dp"
@@ -17,7 +17,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="137dp"
+            android:layout_height="160dp"
             android:layout_margin="8dp">
 
 
@@ -145,7 +145,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="53dp">
+                    android:layout_height="45dp">
 
                     <TextView
                         android:id="@+id/txtDescripcionCOmpra"
@@ -170,7 +170,27 @@
                         android:textSize="12sp" />
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="39dp">
+
+                    <Button
+                        android:id="@+id/btnValorar"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:backgroundTint="#558B2F"
+                        android:text="Valorar"
+                        android:textColor="#fff"
+                        android:textSize="11dp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
             </LinearLayout>
+
         </RelativeLayout>
 
     </com.google.android.material.card.MaterialCardView>

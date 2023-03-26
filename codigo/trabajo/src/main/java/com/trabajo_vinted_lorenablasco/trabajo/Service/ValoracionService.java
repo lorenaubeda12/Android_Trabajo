@@ -1,5 +1,7 @@
 package com.trabajo_vinted_lorenablasco.trabajo.Service;
 
+import com.trabajo_vinted_lorenablasco.trabajo.Entity.Compra;
+import com.trabajo_vinted_lorenablasco.trabajo.Entity.Valoracion;
 import com.trabajo_vinted_lorenablasco.trabajo.Repository.ProductoRepository;
 import com.trabajo_vinted_lorenablasco.trabajo.Repository.Valoracion_Repository;
 import com.trabajo_vinted_lorenablasco.trabajo.utils.GenericResponse;
@@ -15,7 +17,9 @@ public class ValoracionService {
     public ValoracionService(Valoracion_Repository valoracionRepository) {
         this.valoracionRepository = valoracionRepository;
     }
-
+    public GenericResponse guardarValoracion(Valoracion valoracion) {
+        return new GenericResponse(TIPO_DATA, RPTA_OK, "Compra realizada", this.valoracionRepository.save(valoracion));
+    }
     public GenericResponse listar10ProductosMejorValorados() {
         return new GenericResponse(TIPO_DATA, RPTA_OK, OPERACION_CORRECTA, this.valoracionRepository.listarMasValorados());
     }

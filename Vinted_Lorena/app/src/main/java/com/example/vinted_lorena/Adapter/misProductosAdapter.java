@@ -13,7 +13,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.vinted_lorena.Activity.DetalleProductoActivity;
 import com.example.vinted_lorena.Activity.ProductosPorCategoriaActivity;
+import com.example.vinted_lorena.Activity.ValoracionProductoActivity;
+import com.example.vinted_lorena.AniadirProductoActivity;
 import com.example.vinted_lorena.Communication.Communication;
 import com.example.vinted_lorena.Entity.service.Producto;
 import com.example.vinted_lorena.R;
@@ -36,6 +39,7 @@ public class misProductosAdapter extends RecyclerView.Adapter<misProductosAdapte
 
     private final List<Producto> misProductos;
     private Communication communication;
+
 
     public misProductosAdapter(List<Producto> productoList, GalleryFragment homeFragment, GalleryFragment fragment) {
         this.misProductos = productoList;
@@ -92,6 +96,8 @@ public class misProductosAdapter extends RecyclerView.Adapter<misProductosAdapte
             nombreProducto.setText(producto.getNombre_producto());
             descipcionProducto.setText(producto.getDescripcion());
             precioProducto.setText(String.valueOf(producto.getPrecio()) + "€");
+
+
 
 
         }
