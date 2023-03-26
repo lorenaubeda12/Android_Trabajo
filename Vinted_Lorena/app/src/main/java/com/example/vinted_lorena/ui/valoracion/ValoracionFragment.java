@@ -71,8 +71,6 @@ public class ValoracionFragment extends Fragment implements Communication {
         textoUsuariosInicio.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icono1user, 0, 0, 0);
         textoProctosInicio.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icono1product, 0, 0, 0);
 
-
-
     }
 
     private void initAdapter() {
