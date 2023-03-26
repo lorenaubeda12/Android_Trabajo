@@ -40,6 +40,7 @@
                     android:layout_gravity="left"
                     android:layout_marginStart="48dp"
                     android:text="Añadir producto"
+                    android:id="@+id/textoAniadir"
                     android:textColor="#009688"
                     android:textSize="24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -47,7 +48,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/button7"
+                    android:id="@+id/btnAniadirProductoVenta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"

@@ -72,10 +72,10 @@ public class misProductosAdapter extends RecyclerView.Adapter<misProductosAdapte
             SimpleDraweeView draweeView = (SimpleDraweeView) itemView.findViewById(R.id.imgProductoMio);
             draweeView.setImageURI(uri);
 
-
             TextView nombreProducto = itemView.findViewById(R.id.nombreProductoMio);
             TextView descipcionProducto = itemView.findViewById(R.id.MiProductodescrip);
             TextView precioProducto = itemView.findViewById(R.id.precioProductoMio);
+
 
 
             /*  Picasso.get().load(producto.getImagen()).resize(50,50).centerCrop().into(imgProducto);*/

@@ -7,6 +7,8 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,6 +45,8 @@ public class GalleryFragment extends Fragment {
     private RecyclerView rcvProductos;
     private misProductosAdapter adapter;
     private List<Producto> listaProductos = new ArrayList<>();
+    private Button btnAniadirProducto;
+    private TextView textoProductosAniadir;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -66,7 +70,26 @@ public class GalleryFragment extends Fragment {
         rcvProductos.setLayoutManager(new GridLayoutManager(getContext(), 1));
         productoViewModel = vmp.get(ProductoViewModel.class);
 
+        //AniadirProducto
+        btnAniadirProducto = v.findViewById(R.id.btnAniadirProductoVenta);
+        textoProductosAniadir = v.findViewById(R.id.textoAniadir);
+        final Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateSerializer())
+                .registerTypeAdapter(Time.class, new TimeSerializer())
+                .create();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String usuario = sp.getString("usuarioJson", null);
+        if (usuario != null) {
+            final Usuario user = gson.fromJson(usuario, Usuario.class);
+            if (user.getTipo_usuario().toLowerCase().contains("vendedor")) {
+                textoProductosAniadir.setVisibility(View.VISIBLE);
+                btnAniadirProducto.setVisibility(View.VISIBLE);
+            } else {
+                textoProductosAniadir.setVisibility(View.GONE);
+                btnAniadirProducto.setVisibility(View.GONE);
+            }
 
+        }
     }
 
     private void initAdapter() {
@@ -84,6 +107,9 @@ public class GalleryFragment extends Fragment {
         String usuarioJson = sp.getString("usuarioJson", null);
         if (usuarioJson != null) {
             final Usuario u = g.fromJson(usuarioJson, Usuario.class);
+
+
+            //Productos
             this.productoViewModel.listarMisProductos(u.getId()).observe(getViewLifecycleOwner(), response -> {
                 adapter.updateItem(response.getBody());
             });

@@ -10,6 +10,6 @@ public interface Valoracion_Repository extends CrudRepository<Valoracion, Intege
     @Query(value = "SELECT v.id_producto " +
             "FROM Valoracion v " +
             "GROUP BY v.id_producto.id " +
-            " ORDER BY COUNT(v.id_producto.id)")
+            " ORDER BY COUNT(v.id_producto.id )")
     Iterable<Producto> listarMasValorados();
 }

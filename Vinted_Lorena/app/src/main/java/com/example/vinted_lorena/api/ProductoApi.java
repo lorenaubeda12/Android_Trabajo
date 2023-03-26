@@ -35,4 +35,7 @@ public interface ProductoApi {
     @GET(baseUrl + "/producto/{id}")
     Call<GenericResponse<List<Producto>>> producto(@Path("nombre") String nombre);
 
+
+
+
 }

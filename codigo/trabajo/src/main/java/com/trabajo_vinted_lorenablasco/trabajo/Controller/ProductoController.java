@@ -46,6 +46,7 @@ public class ProductoController {
         return this.valoracionService.listar10ProductosMejorValorados();
     }
 
+
     @GetMapping("/producto/{id}")
     public GenericResponse productoElegidoVer(@PathVariable int id) {
         return this.service.VerProductoElegido(id);

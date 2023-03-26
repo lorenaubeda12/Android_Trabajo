@@ -20,5 +20,7 @@ public interface Usuario_Repository extends CrudRepository<Usuario,Integer> {
 
 
 
+
+
 /*U identificador tabla usuario*/
 

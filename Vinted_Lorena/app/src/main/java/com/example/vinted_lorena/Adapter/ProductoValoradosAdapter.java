@@ -73,12 +73,15 @@ public class ProductoValoradosAdapter extends RecyclerView.Adapter<ProductoValor
         }
 
         public void setItem(final Producto producto) {
-            String ulrImage = generateUrl(producto.getImagen());
-            Uri uri = Uri.parse(ulrImage);
-            SimpleDraweeView draweeView = (SimpleDraweeView) itemView.findViewById(R.id.my_image_view);
-            draweeView.setImageURI(uri);
+            String url= producto.getImagen();
+            if(url != null){
+                String ulrImage = generateUrl(url);
+                Uri uri = Uri.parse(ulrImage);
+                SimpleDraweeView draweeView = (SimpleDraweeView) itemView.findViewById(R.id.my_image_view);
+                draweeView.setImageURI(uri);
+            }
 
-
+            
             TextView nombreProducto = itemView.findViewById(R.id.nombreProducto);
             TextView descipcionProducto = itemView.findViewById(R.id.descrip);
             TextView precioProducto = itemView.findViewById(R.id.precio);

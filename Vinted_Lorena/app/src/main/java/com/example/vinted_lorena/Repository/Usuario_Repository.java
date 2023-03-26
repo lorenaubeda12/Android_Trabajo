@@ -4,9 +4,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.vinted_lorena.Entity.GenericResponse;
+import com.example.vinted_lorena.Entity.service.Producto;
 import com.example.vinted_lorena.Entity.service.Usuario;
 import com.example.vinted_lorena.api.ConfigApi;
 import com.example.vinted_lorena.api.UsuarioApi;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,6 +71,26 @@ public class Usuario_Repository {
 
         return mutableLiveData;
     }
+
+    public LiveData<GenericResponse<List<Usuario>>> listarVendedoresConMasProductos() {
+        final MutableLiveData<GenericResponse<List<Usuario>>> mutableLiveData = new MutableLiveData<>();
+        this.usuarioApi.listarVendedoresConMasProductos().enqueue(new Callback<GenericResponse<List<Usuario>>>() {
+            @Override
+            public void onResponse(Call<GenericResponse<List<Usuario>>> call, Response<GenericResponse<List<Usuario>>> response) {
+                mutableLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GenericResponse<List<Usuario>>> call, Throwable t) {
+                mutableLiveData.setValue(new GenericResponse<>());
+                System.out.println("Se ha producido un error :" + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+
+        return mutableLiveData;
+    }
+
 
 
 }

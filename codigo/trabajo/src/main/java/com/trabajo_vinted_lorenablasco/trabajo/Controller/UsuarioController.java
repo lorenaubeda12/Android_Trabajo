@@ -1,6 +1,8 @@
 package com.trabajo_vinted_lorenablasco.trabajo.Controller;
 
 import com.trabajo_vinted_lorenablasco.trabajo.Entity.Usuario;
+import com.trabajo_vinted_lorenablasco.trabajo.Repository.ProductoRepository;
+import com.trabajo_vinted_lorenablasco.trabajo.Service.ProductoService;
 import com.trabajo_vinted_lorenablasco.trabajo.Service.UsuarioService;
 import com.trabajo_vinted_lorenablasco.trabajo.utils.GenericResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,9 +15,11 @@ import java.net.http.HttpRequest;
 @RequestMapping("api/usuario")
 public class UsuarioController {
     private final UsuarioService service;
+    private final ProductoService productoService;
 
-    public UsuarioController(UsuarioService service) {
+    public UsuarioController(UsuarioService service, ProductoService productoService) {
         this.service = service;
+        this.productoService=productoService;
     }
     /*Hacer el login*/
     @PostMapping("/login")
@@ -33,5 +37,11 @@ public class UsuarioController {
     public GenericResponse actualizar(@PathVariable int id, @RequestBody Usuario u){
         return  this.service.guardarUsuario(u);
     }
+    @GetMapping("/vendedoresConMasProductos")
+    public GenericResponse verProductosPorValoracion() {
+        return this.productoService.vendedoresConMasProductos();
+    }
+
+
 
 }

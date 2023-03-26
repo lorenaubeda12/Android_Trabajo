@@ -43,16 +43,15 @@ public class ProductoService {
     public GenericResponse VerProductoElegido(int idproducto) {
         return new GenericResponse(TIPO_DATA, RPTA_OK, "Producto añadido", this.productoRepository.producto(idproducto));
     }
-    public GenericResponse listar10ProductosMejorValorados(Iterable<Integer> idsValoradas) {
-        return new GenericResponse(TIPO_DATA, RPTA_OK, OPERACION_CORRECTA, this.productoRepository.productosMejorValorados(idsValoradas));
-    }
-    public Iterable<Integer> listar10idsMejorValoradas() {
-        return this.productoRepository.idsMejorValoradas();
-    }
+
 
     public GenericResponse listarProductosPorCategoria(int id) {
         return new GenericResponse(TIPO_DATA, RPTA_OK, OPERACION_CORRECTA, this.productoRepository.listarProductosPorCategoria( id));
 
+    }
+
+    public GenericResponse vendedoresConMasProductos() {
+        return new GenericResponse(TIPO_DATA, RPTA_OK, OPERACION_CORRECTA, this.productoRepository.listarVendedoresConMasProductoALaVenta());
     }
 
 }
