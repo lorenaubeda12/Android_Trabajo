@@ -20,4 +20,10 @@
         <item>Envio Estándar(+5€)</item>
         <item>Envio Urgente(+10€)</item>
     </string-array>
+
+    <string-array name="tiposUsuario">
+        <item>Cliente</item>
+        <item>Vendedor</item>
+
+    </string-array>
 </resources>

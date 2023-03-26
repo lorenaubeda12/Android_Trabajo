@@ -44,15 +44,18 @@ public class UsuarioService {
 
     //Metodo para crear usuario y actualizar datos
     public GenericResponse save(Usuario user) {
-        Optional<Usuario> opt = this.repository.findById(user.getId());
+        GenericResponse nuevo=null;
+                Optional<Usuario> opt = this.repository.findById(user.getId());
         int id = opt.isPresent() ? opt.get().getId() : 0;
-
-            if (repository.existByEmail(user.getEmail().trim())) {
-                return new GenericResponse(TIPO_RESULT, RPTA_WARNING, "Lo sentimos, este usuario ya existe con este email", null);
+        if(id==0){
+            if (repository.existByEmail(user.getEmail().trim())==true) {
+                nuevo = new GenericResponse(TIPO_RESULT, RPTA_WARNING, "Lo sentimos, este usuario ya existe con este email", null);
             } else {
                 //Guardar
                 user.setId(id);
-                return new GenericResponse(TIPO_DATA, RPTA_OK, "Cliente registrado correctamente", this.repository.save(user));
+              nuevo= new GenericResponse(TIPO_DATA, RPTA_OK, "Cliente registrado correctamente", this.repository.save(user));
             }
+        }
+        return nuevo;
     }
 }

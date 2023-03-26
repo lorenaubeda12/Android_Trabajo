@@ -1,8 +1,14 @@
 package com.example.vinted_lorena.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,21 +16,22 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.vinted_lorena.Entity.service.Usuario;
 import com.example.vinted_lorena.R;
+import com.example.vinted_lorena.loginActivity;
 import com.example.vinted_lorena.view_model.UsuarioViewModel;
 
-public class RegistroActivity extends AppCompatActivity {
+public class RegistroActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private EditText edtMail, edtPassword, edtNombre, edtApellidos, edtDireccion, edtPais, edtCiudad, edtTelefono;
     private Button btnregistro;
     private Button btnAtras;
     private UsuarioViewModel usuarioViewModel;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registro);
         this.initViewModel();
         this.init();
+
     }
 
     private void initViewModel() {
@@ -42,7 +49,9 @@ public class RegistroActivity extends AppCompatActivity {
         edtDireccion = findViewById(R.id.direc_regitro_txt);
         edtCiudad = findViewById(R.id.direc_regitro_txt);
         edtPais = findViewById(R.id.pais_regitro_txt);
-        btnAtras= findViewById(R.id.regitro_atras);
+        btnAtras = findViewById(R.id.regitro_atras);
+
+
 
         btnregistro = findViewById(R.id.registrarse);
         btnregistro.setOnClickListener(v -> {
@@ -54,8 +63,8 @@ public class RegistroActivity extends AppCompatActivity {
 
         });
         btnAtras.setOnClickListener(v -> {
-                onBackPressed();
-            });
+            onBackPressed();
+        });
 
 
     }
@@ -129,20 +138,22 @@ public class RegistroActivity extends AppCompatActivity {
             usuario.setDireccion(edtDireccion.getText().toString());
             usuario.setCiudad(edtCiudad.getText().toString());
             usuario.setPais(edtPais.getText().toString());
-            usuario.setTipo_usuario("Comprador");
+            usuario.setTipo_usuario("cliente");
             usuario.setTelefono(edtTelefono.getText().toString());
             usuario.setProvincia(edtCiudad.getText().toString());
             usuario.setId(0);
+
+
             try {
                 this.usuarioViewModel.registro(usuario).observe(this, cResponse -> {
-                    if (cResponse.getRpta() == 1) {
+                    if (cResponse.getRpta() == 0) {
                         Toast.makeText(this, cResponse.getMessage() + ", ahora procederemos a registrar sus credenciales.", Toast.LENGTH_SHORT).show();
                         int idc = cResponse.getBody().getId();//Obtener el id del cliente.
 
                         this.usuarioViewModel.registro(usuario).observe(this, uResponse -> {
                             //Toast.makeText(this, uResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             if (uResponse.getRpta() == 1) {
-                                Toast.makeText(this, "Sus Datos y credenciales fueron creados correctamente: "+cResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, "Sus Datos y credenciales fueron creados correctamente: " + cResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
                                 this.finish();
                             } else {
@@ -151,6 +162,8 @@ public class RegistroActivity extends AppCompatActivity {
                         });
                     } else {
                         Toast.makeText(this, "Registro correcto", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), loginActivity.class);
+                        startActivity(intent);
                     }
                 });
 
@@ -162,6 +175,15 @@ public class RegistroActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }
 
 
