@@ -228,7 +228,7 @@ public class AniadirProductoActivity extends AppCompatActivity implements Adapte
         try {
             productoViewModel.guardarProducto(productoNuevo).observe(this, response -> {
 
-                successMessage("No olvides revisar tus compras en 'Mis compras'");
+                successMessage("¡ Tu producto ya esta subido ! Revisa la sección Mis productos'");
 
             /*Intent intent = new Intent(getApplicationContext(), home.class);
             startActivity(intent);*/
