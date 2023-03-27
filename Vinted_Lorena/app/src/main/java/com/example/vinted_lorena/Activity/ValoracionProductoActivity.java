@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -29,6 +31,7 @@ import com.example.vinted_lorena.utilis.DateSerializer;
 import com.example.vinted_lorena.utilis.TimeSerializer;
 import com.example.vinted_lorena.view_model.CompraViewModel;
 import com.example.vinted_lorena.view_model.ProductoViewModel;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.OkHttp3Downloader;
@@ -44,6 +47,7 @@ public class ValoracionProductoActivity extends AppCompatActivity {
     private TextView tvNombreProductoValorado, tvPrecioProductoValorado, tvDescripcionProductoValorado;
     private Spinner spinnerProductoValorar;
     private ValoracionViewModel valoracionViewModel;
+    private Button btnGuardarValoracion;
     private String valoracion;
     private int valoracionNum;
     static Usuario usuario;
@@ -79,7 +83,7 @@ public class ValoracionProductoActivity extends AppCompatActivity {
         this.tvPrecioProductoValorado = findViewById(R.id.precioValoracion);
         this.tvDescripcionProductoValorado = findViewById(R.id.descripValoracion);
         this.spinnerProductoValorar = findViewById(R.id.spValoracion);
-
+        this.btnGuardarValoracion=findViewById(R.id.btnGuardarValoracion);
 
 
         spinnerProductoValorar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -90,34 +94,34 @@ public class ValoracionProductoActivity extends AppCompatActivity {
                 if (valoracion.contains("5")) {
                     valoracionNum = 5;
                     valoracionNueva.setValoracion(valoracionNum);
-                    compra.getId_producto().setEstaValorado(true);
+
 
                 } else if (valoracion.contains("4")) {
                     valoracionNum = 4;
                     valoracionNueva.setValoracion(valoracionNum);
-                    compra.getId_producto().setEstaValorado(true);
+
 
 
                 } else if (valoracion.contains("3")) {
                     valoracionNum = 3;
                     valoracionNueva.setValoracion(valoracionNum);
-                    compra.getId_producto().setEstaValorado(true);
+
 
                 } else if (valoracion.contains("2")) {
                     valoracionNum = 2;
                     valoracionNueva.setValoracion(valoracionNum);
-                    compra.getId_producto().setEstaValorado(true);
+
 
                 } else if (valoracion.contains("1")) {
                     valoracionNum = 1;
                     valoracionNueva.setValoracion(valoracionNum);
-                    compra.getId_producto().setEstaValorado(true);
+
 
 
                 } else if (valoracion.contains("0")) {
                     valoracionNum = 0;
                     valoracionNueva.setValoracion(valoracionNum);
-                    compra.getId_producto().setEstaValorado(true);
+
 
                 }
             }
@@ -152,24 +156,40 @@ public class ValoracionProductoActivity extends AppCompatActivity {
             this.tvNombreProductoValorado.setText(compra.getId_producto().getDescripcion());
             this.tvPrecioProductoValorado.setText(String.valueOf(compra.getPrecio_compra())+"€");
 
-           /*     this.valoracionNueva.setId_producto(compra.getId_producto());
-                this.valoracionNueva.setId_usuario(usuario);
-                this.valoracionNueva.setId_compra(compra);*/
+                String ulrImage = generateUrl(compra.getId_producto().getImagen());
+                Uri uri = Uri.parse(ulrImage);
+                SimpleDraweeView draweeView = (SimpleDraweeView) findViewById(R.id.imgValorarProducto);
+                draweeView.setImageURI(uri);
+
+
+                this.valoracionNueva.setId_producto(compra.getId_producto());
+          this.valoracionNueva.setId_usuario(usuario);
+          this.valoracionNueva.setId_compra(compra);
 
             } else {
                 System.out.println("Error al obtener los detalles del producto");
             }
 
         }
+
+        btnGuardarValoracion.setOnClickListener(v -> {
+            try {
+                guardarDatos(valoracionNueva);
+            } catch (Exception ex) {
+                System.out.println(ex);
+                ex.printStackTrace();
+                Toast.makeText(this, "Se ha producido un error : " + ex.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void guardarDatos(Valoracion valoracion) {
         try {
             valoracionViewModel.guardarValoracion(valoracion).observe(this, response -> {
 
-                successMessage("No olvides revisar tus compras en 'Mis compras'");
+                successMessage("Gracias por valorar el producto'");
 
-            /*Intent intent = new Intent(getApplicationContext(), home.class);
+/*            Intent intent = new Intent(getApplicationContext(), home.class);
             startActivity(intent);*/
             });
 
@@ -185,7 +205,7 @@ public class ValoracionProductoActivity extends AppCompatActivity {
 
         Handler handler = new Handler();
         new SweetAlertDialog(this,
-                SweetAlertDialog.SUCCESS_TYPE).setTitleText("¡Compra realizada!")
+                SweetAlertDialog.SUCCESS_TYPE).setTitleText("¡Valoración realizada!")
                 .setContentText(message).show();
         int tiempoTranscurrir = 3000; //1 segundo, 1000 millisegundos.
         handler.postDelayed(new Runnable() {

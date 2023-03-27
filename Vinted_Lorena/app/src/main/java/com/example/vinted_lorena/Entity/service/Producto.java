@@ -18,7 +18,8 @@ public class Producto {
 
 
     private Usuario id_usuario;
-    private boolean estaValorado;
+
+
 
     public int getId() {
         return id;
@@ -76,11 +77,4 @@ public class Producto {
         this.id_usuario = id_usuario;
     }
 
-    public boolean isEstaValorado() {
-        return estaValorado;
-    }
-
-    public void setEstaValorado(boolean estaValorado) {
-        this.estaValorado = estaValorado;
-    }
 }

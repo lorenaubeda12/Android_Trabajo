@@ -210,7 +210,6 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
                     this.tvPrecioProducto.setText(String.valueOf(this.producto.getPrecio()) + "€");
                     this.tvDescripcionProducto.setText(this.producto.getDescripcion());
                     this.tvVendedor.setText(this.producto.getId_usuario().getnombreCompleto());
-                    this.producto.setEstaValorado(false);
 
                     this.tipoEnvio.setOnItemSelectedListener(this);
                     ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.tiposDeEnvio, android.R.layout.simple_spinner_item);

@@ -1,7 +1,9 @@
 package com.example.vinted_lorena.Adapter;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.example.vinted_lorena.Activity.DetalleProductoActivity;
 import com.example.vinted_lorena.Activity.ValoracionProductoActivity;
 import com.example.vinted_lorena.Communication.Communication;
 import com.example.vinted_lorena.Entity.service.Compra;
+import com.example.vinted_lorena.Entity.service.Usuario;
 import com.example.vinted_lorena.R;
 import com.example.vinted_lorena.ui.slideshow.SlideshowFragment;
 import com.example.vinted_lorena.utilis.DateSerializer;
@@ -87,23 +90,27 @@ public class CompraAdapter extends RecyclerView.Adapter<CompraAdapter.ViewHolder
             SimpleDraweeView draweeView = (SimpleDraweeView) itemView.findViewById(R.id.imgCompra);
             draweeView.setImageURI(uri);
 
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(itemView.getContext());
+            final Gson g = new GsonBuilder()
+                    .registerTypeAdapter(Date.class, new DateSerializer())
+                    .registerTypeAdapter(Time.class, new TimeSerializer())
+                    .create();
+            String usuarioJson = sp.getString("usuarioJson", null);
+            final Usuario u = g.fromJson(usuarioJson, Usuario.class);
 
             txtCodigoCompra.setText(""+c.getId_compra());
             txtDescipCompra.setText(c.getId_producto().getDescripcion());
             txtNombreCompra.setText(c.getId_producto().getNombre_producto());
             txtVendedorCompra.setText(c.getId_usuario().getnombreCompleto());
             txtPrecioCompra.setText(String.valueOf(c.getPrecio_compra())+"€");
+                btnValorar.setOnClickListener(v -> {
+                    final Intent i = new Intent(itemView.getContext(), ValoracionProductoActivity.class);
 
-            btnValorar.setOnClickListener(v -> {
-                final Intent i = new Intent(itemView.getContext(), ValoracionProductoActivity.class);
-                final Gson g = new GsonBuilder()
-                        .registerTypeAdapter(Date.class, new DateSerializer())
-                        .registerTypeAdapter(Time.class, new TimeSerializer())
-                        .create();
+                    i.putExtra("compraValorar", g.toJson(c));
+                    communication.showDetails(i);
+                });
 
-                i.putExtra("compraValorar", g.toJson(c));
-                communication.showDetails(i);
-            });
+
 
         }
     }

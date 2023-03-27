@@ -1,12 +1,10 @@
 package com.example.vinted_lorena.Entity.service;
 
 
-
 import java.sql.Date;
 
 
 public class Compra {
-
     private int id_compra;
 
     private Producto id_producto;
@@ -14,10 +12,10 @@ public class Compra {
     private Usuario id_usuario;
 
     private Date fecha_compra;
-
     private  double precio_compra;
 
     private Tipo_envio tipo_Envio;
+
 
     public int getId_compra() {
         return id_compra;
