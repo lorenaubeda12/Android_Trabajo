@@ -344,18 +344,12 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
             showNewNotification();
         }
 
-     /*   s.observe(this, compraGenericResponse -> {
-            successMessage("ha ido bien!");
-            Intent intent = new Intent(getApplicationContext(), HomeFragment.class);
-            startActivity(intent);
-        });
-        */
-
     }
 
     private void showNotification() {
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "NEW", NotificationManager.IMPORTANCE_DEFAULT);
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        manager.createNotificationChannel(channel);
         showNewNotification();
     }
 
@@ -373,7 +367,7 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setPedingIntent(Class<ComprarActivity> comprarActivityClass) {
-        Intent intent = new Intent(this, comprarActivityClass);
+        Intent intent = new Intent(this, home.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(comprarActivityClass);
         stackBuilder.addNextIntent(intent);
