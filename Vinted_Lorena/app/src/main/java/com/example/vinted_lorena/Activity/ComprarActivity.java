@@ -120,11 +120,7 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comprar);
-        try {
-            init();
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+        init();
 
         // Ajustamos primero las properties
         properties = System.getProperties();
@@ -140,7 +136,7 @@ public class ComprarActivity extends AppCompatActivity implements AdapterView.On
     }
 
 
-    private void init() throws MessagingException {
+    private void init() {
         Toolbar toolbar = this.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_volver_atras);
         toolbar.setNavigationOnClickListener(v -> {//Reemplazo con lamba

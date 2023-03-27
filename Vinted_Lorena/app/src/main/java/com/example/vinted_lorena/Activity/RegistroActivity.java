@@ -1,6 +1,11 @@
 package com.example.vinted_lorena.Activity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,10 +17,13 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.vinted_lorena.Entity.service.Usuario;
 import com.example.vinted_lorena.R;
+import com.example.vinted_lorena.home;
 import com.example.vinted_lorena.loginActivity;
 import com.example.vinted_lorena.view_model.UsuarioViewModel;
 
@@ -28,6 +36,11 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
     private Spinner usuarioElegir;
     private String tipoUsuario;
     private String elegido;
+
+    private static final String CHANNEL_ID = "canal";
+    private PendingIntent pendingIntent;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,22 +66,21 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
         edtCiudad = findViewById(R.id.direc_regitro_txt);
         edtPais = findViewById(R.id.pais_regitro_txt);
         btnAtras = findViewById(R.id.regitro_atras);
-        usuarioElegir=findViewById(R.id.usuarioElegir);
-
+        usuarioElegir = findViewById(R.id.usuarioElegir);
 
 
         usuarioElegir.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                Toast.makeText(getApplicationContext(),"you selected"+parent.getItemAtPosition(pos),Toast.LENGTH_SHORT).show();
-                tipoUsuario= parent.getItemAtPosition(pos).toString();
+                tipoUsuario = parent.getItemAtPosition(pos).toString();
 
                 if (tipoUsuario.contains("Vendedor")) {
-                   elegido="vendedor";
+                    elegido = "vendedor";
 
                 } else {
-                    elegido="cliente";
+                    elegido = "cliente";
                 }
             }
+
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
@@ -76,11 +88,7 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
 
         btnregistro = findViewById(R.id.registrarse);
         btnregistro.setOnClickListener(v -> {
-            try {
-                guardarDatos();
-            } catch (Exception e) {
-                Toast.makeText(this, "Se ha producido un error al intentar registrarse: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+            guardarDatos();
 
         });
         btnAtras.setOnClickListener(v -> {
@@ -183,8 +191,18 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
                         });
                     } else {
                         Toast.makeText(this, "Registro correcto", Toast.LENGTH_SHORT).show();
+                        try {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                showNotification();
+                            } else {
+                                showNewNotification();
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(this, "Se ha producido un error al intentar registrarse: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                         Intent intent = new Intent(getApplicationContext(), loginActivity.class);
                         startActivity(intent);
+
                     }
                 });
 
@@ -205,6 +223,35 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+    private void showNewNotification() {
+        setPedingIntent(ComprarActivity.class);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+                .setSmallIcon(R.drawable.usuario_24)
+                .setContentTitle("¡Bienvenido!")
+                .setContentText("Ya puedes disfrutar de todas las ventajas de Vinted")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent);
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getApplicationContext());
+        managerCompat.notify(1, builder.build());
+
+    }
+
+    private void showNotification() {
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "NEW", NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        manager.createNotificationChannel(channel);
+        showNewNotification();
+    }
+
+    private void setPedingIntent(Class<ComprarActivity> comprarActivityClass) {
+        Intent intent = new Intent(this, MainActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(comprarActivityClass);
+        stackBuilder.addNextIntent(intent);
+        pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
 }
 
 
