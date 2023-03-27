@@ -21,6 +21,12 @@
         <item>Envio Urgente(+10€)</item>
     </string-array>
 
+    <string-array name="tiposUsuario">
+        <item>Cliente</item>
+        <item>Vendedor</item>
+    </string-array>
+
+
     <string-array name="categoria">
         <item>Zapatillas</item>
         <item>Blusa</item>

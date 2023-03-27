@@ -25,6 +25,9 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
     private Button btnregistro;
     private Button btnAtras;
     private UsuarioViewModel usuarioViewModel;
+    private Spinner usuarioElegir;
+    private String tipoUsuario;
+    private String elegido;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +53,26 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
         edtCiudad = findViewById(R.id.direc_regitro_txt);
         edtPais = findViewById(R.id.pais_regitro_txt);
         btnAtras = findViewById(R.id.regitro_atras);
+        usuarioElegir=findViewById(R.id.usuarioElegir);
 
 
+
+        usuarioElegir.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                Toast.makeText(getApplicationContext(),"you selected"+parent.getItemAtPosition(pos),Toast.LENGTH_SHORT).show();
+                tipoUsuario= parent.getItemAtPosition(pos).toString();
+
+                if (tipoUsuario.contains("Vendedor")) {
+                   elegido="vendedor";
+
+                } else {
+                    elegido="cliente";
+                }
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         btnregistro = findViewById(R.id.registrarse);
         btnregistro.setOnClickListener(v -> {
@@ -138,7 +159,7 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
             usuario.setDireccion(edtDireccion.getText().toString());
             usuario.setCiudad(edtCiudad.getText().toString());
             usuario.setPais(edtPais.getText().toString());
-            usuario.setTipo_usuario("cliente");
+            usuario.setTipo_usuario(elegido);
             usuario.setTelefono(edtTelefono.getText().toString());
             usuario.setProvincia(edtCiudad.getText().toString());
             usuario.setId(0);
