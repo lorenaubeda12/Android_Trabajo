@@ -12,6 +12,7 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -28,6 +29,8 @@ import com.example.vinted_lorena.Entity.service.Producto;
 import com.example.vinted_lorena.Entity.service.Tipo_envio;
 import com.example.vinted_lorena.Entity.service.Usuario;
 import com.example.vinted_lorena.Repository.TipoEnvio_Repository;
+import com.example.vinted_lorena.ui.gallery.GalleryFragment;
+import com.example.vinted_lorena.ui.slideshow.SlideshowFragment;
 import com.example.vinted_lorena.utilis.DateSerializer;
 import com.example.vinted_lorena.utilis.TimeSerializer;
 import com.example.vinted_lorena.view_model.ProductoViewModel;
@@ -80,13 +83,8 @@ public class AniadirProductoActivity extends AppCompatActivity implements Adapte
         try {
             init();
             btnFinalizar.setOnClickListener(v -> {
-                try {
                     loadData();
                     guardarDatos(productoNuevo);
-                } catch (Exception e) {
-                    Toast.makeText(this, "Se ha producido un error al intentar registrarse: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
             });
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -228,7 +226,19 @@ public class AniadirProductoActivity extends AppCompatActivity implements Adapte
         try {
             productoViewModel.guardarProducto(productoNuevo).observe(this, response -> {
 
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        showNotification();
+                    } else {
+                        showNewNotification();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(this, "Se ha producido un error al intentar registrarse: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
                 successMessage("¡ Tu producto ya esta subido ! Revisa la sección Mis productos'");
+
+
 
             /*Intent intent = new Intent(getApplicationContext(), home.class);
             startActivity(intent);*/
@@ -251,7 +261,7 @@ public class AniadirProductoActivity extends AppCompatActivity implements Adapte
     private void showNewNotification() {
         setPedingIntent(ComprarActivity.class);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_stat_done_outline)
+                .setSmallIcon(android.R.drawable.btn_star_big_on)
                 .setContentTitle("¡Tu producto se ha subido con éxito!")
                 .setContentText("Revisa tus productos a la venta en Mis Productos'")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -262,7 +272,7 @@ public class AniadirProductoActivity extends AppCompatActivity implements Adapte
     }
 
     private void setPedingIntent(Class<ComprarActivity> comprarActivityClass) {
-        Intent intent = new Intent(this, comprarActivityClass);
+        Intent intent = new Intent(this, GalleryFragment.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(comprarActivityClass);
         stackBuilder.addNextIntent(intent);
@@ -273,7 +283,7 @@ public class AniadirProductoActivity extends AppCompatActivity implements Adapte
 
         Handler handler = new Handler();
         new SweetAlertDialog(this,
-                SweetAlertDialog.SUCCESS_TYPE).setTitleText("¡Compra realizada!")
+                SweetAlertDialog.SUCCESS_TYPE).setTitleText("¡Has subido tu producto!")
                 .setContentText(message).show();
         int tiempoTranscurrir = 3000; //1 segundo, 1000 millisegundos.
         handler.postDelayed(new Runnable() {

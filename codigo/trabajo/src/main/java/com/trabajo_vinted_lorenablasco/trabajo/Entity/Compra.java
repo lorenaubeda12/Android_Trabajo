@@ -29,7 +29,7 @@ public class Compra {
     private Tipo_envio tipo_Envio;
 
     private boolean estValorada;
-    
+
 
     public int getId_compra() {
         return id_compra;

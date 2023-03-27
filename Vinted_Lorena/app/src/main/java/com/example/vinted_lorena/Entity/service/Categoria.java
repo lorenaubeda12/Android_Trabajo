@@ -1,7 +1,8 @@
 package com.example.vinted_lorena.Entity.service;
 
 
-public class Categoria {
+public class
+Categoria {
 
     private  int id_categoria;
 
